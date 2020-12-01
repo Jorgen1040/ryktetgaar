@@ -22,7 +22,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/new', (req, res) => {
-    // Generate game ID and send them there to the game ID 
+    // Generate game ID and send them there to the game ID
     res.send('New game waow');
 });
 

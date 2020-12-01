@@ -7,9 +7,9 @@ window.onload=function(){
     var y = 0;
     canvas.addEventListener("mousedown", setPosition(e));
 
-    
+
     canvas.addEventListener("mousemove", draw(e));
-    
+
 
     canvas.addEventListener("mouseup", (e) => {
 
@@ -32,5 +32,3 @@ function draw(e) {
     ctx.lineTo(x, y);
     ctx.stroke();
 }
-
-
