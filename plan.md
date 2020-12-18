@@ -35,7 +35,7 @@ MongoDB? Eller bare en json fil
 ## Milestones
 
 - [ ] UI, brukergrensesnitt
-  - Se https://www.figma.com/proto/zLzAz0sBDsL0jjKv93L4bG/Ryktet-G%C3%A5r-sketch?node-id=1%3A3&scaling=min-zoom
+  - Se <https://www.figma.com/proto/zLzAz0sBDsL0jjKv93L4bG/Ryktet-G%C3%A5r-sketch?node-id=1%3A3&scaling=min-zoom>
   - [ ] Gi ord
   - [ ] Tegne
   - [ ] Skrive (gjette tegningen)
