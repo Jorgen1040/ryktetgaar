@@ -38,9 +38,15 @@ window.onload=function(){
 
 function submitDrawing(){
     const canvas = document.getElementById("drawCanvas");
+    const dataURL = canvas.toDataURL();
     fetch('/send', {
         method: 'POST',
         mode: 'no-cors',
-        body: JSON.stringify(canvas.toDataURL())
+        headers: {
+            "content-type": "application/json"
+        },
+        body: JSON.stringify({
+            drawing: dataURL
+        })
     });
 }

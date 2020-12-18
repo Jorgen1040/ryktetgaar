@@ -2,6 +2,9 @@
   "name": "ryktetgaar",
   "version": "1.0.0",
   "description": "Ryktet Går på nett",
+  "nodemonConfig": {
+    "ignore": ["data/*"]
+  },
   "main": "server.js",
   "scripts": {
     "test": "nodemon server.js",

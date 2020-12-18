@@ -24,6 +24,9 @@ MongoDB? Eller bare en json fil
             },
             "currentDrawings": {
                 "playerID": "base64-encoded image"
+            },
+            "drawingOrder": {
+                "playerID": [ "originalWord", "originalDrawing", "guess1", "drawing1", "guess2", "drawing2", "guess3", "drawing3", "guess4", "drawing4" ]
             }
         }
     }
@@ -31,5 +34,11 @@ MongoDB? Eller bare en json fil
 
 ## Milestones
 
+- [ ] UI, brukergrensesnitt
+  - Se https://www.figma.com/proto/zLzAz0sBDsL0jjKv93L4bG/Ryktet-G%C3%A5r-sketch?node-id=1%3A3&scaling=min-zoom
+  - [ ] Gi ord
+  - [ ] Tegne
+  - [ ] Skrive (gjette tegningen)
 - [ ] Kunne tegne og lagre til databasen koblet til playerID
-- [ ] Vise den det lagret bilde til en annen person og vise forskjellige bilder for brukere
+- [ ] Vise den det lagret bilde til en annen person og vise forskjellige bilder for brukere (bruk cookies)
+- [ ] Socket.io (websocket for å oppdatere nettsiden for brukere)
