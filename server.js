@@ -2,7 +2,6 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const fs = require('fs');
-const { RSA_NO_PADDING } = require('constants');
 
 const app = express();
 
@@ -13,7 +12,7 @@ const host = '0.0.0.0';
 app.use(express.json());
 
 app.set("view engine", "ejs");
-// app.set("views", path.join(__dirname, "views"))
+app.set("views", path.join(__dirname, "views"))
 
 app.listen(port, host, () => {
     console.log(`Listening on port ${host}:${port}`);
@@ -38,7 +37,7 @@ app.get('/:id', (req, res) => {
 });
 
 app.post('/send', (req, res) => {
-    // TODO: Make this update a MongoDB or something idk
+    // TODO: Make this update a MongoDB or something idk (local or at least self hosted)
     var body = '';
     filePath = __dirname + '/data/data.json';
     console.log(req.body);
@@ -51,4 +50,9 @@ app.post('/send', (req, res) => {
             res.end();
         });
     });
+});
+
+app.get('getDrawing', (req, res) => {
+    // Get drawing from data.json and display for user
+
 });

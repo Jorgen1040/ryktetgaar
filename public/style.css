@@ -1,3 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
+
+body {
+    font-family: 'Indie Flower', cursive;
+}
+
+
+div {
+    display: block;
+}
+
 h1 {
-    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+}
+
+a {
+    text-decoration: none;
+    color:black;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.container {
+    position: relative;
+    max-width: 500px;
+    display: grid;
+    grid-row-gap: 100px;
+    margin: auto;
+}
+
+.buttons {
+    display: grid;
+    grid-row-gap: 5px;
+    font-size: 2rem;
+    align-items: center;
+    
+}
+
+.btn {
+    border: 1px solid black;
+    border-radius: 10px;
+    width: 50%;
+    background-color: lightgray;
+    margin: auto;
 }
