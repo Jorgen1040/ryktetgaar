@@ -18,13 +18,18 @@ app.listen(port, host, () => {
     console.log(`Listening on port ${host}:${port}`);
 });
 app.use(express.static("./public"));
+app.use(express.static("./styles"));
 
 app.get('/', (req, res) => {
     res.render('index');
 });
 
+app.get('/lobby', (req, res) => {
+    res.render('lobby');
+});
+
 app.get('/new', (req, res) => {
-    // Generate game ID and send them there to the game ID
+    // Generate game ID and send them to the lobby
     res.send('New game waow');
 });
 
@@ -33,6 +38,7 @@ app.get('/draw', (req, res) => {
 });
 
 app.get('/:id', (req, res) => {
+    // Redirect to lobby, check if invite link is invalid
     res.send(req.params);
 });
 

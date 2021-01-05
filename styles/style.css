@@ -1,0 +1,85 @@
+@import url("https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap");
+body {
+  font-family: 'Indie Flower', cursive;
+}
+
+div {
+  display: block;
+}
+
+h1 {
+  font-size: 4rem;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.container {
+  position: relative;
+  max-width: 500px;
+  display: -ms-grid;
+  display: grid;
+  grid-row-gap: 100px;
+  margin: auto;
+}
+
+.invite {
+  display: block;
+  font-size: 2.5rem;
+}
+
+p {
+  margin: 0px;
+}
+
+.players {
+  display: -ms-grid;
+  display: grid;
+  grid-row-gap: 5px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.player {
+  background-color: lightgray;
+  height: 50px;
+  line-height: 50px;
+  width: 50%;
+  margin: auto;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.leader-icon {
+  position: absolute;
+  left: 0.5em;
+  top: 0.5em;
+}
+
+.buttons {
+  display: -ms-grid;
+  display: grid;
+  grid-row-gap: 5px;
+  font-size: 2rem;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.btn {
+  border: 1px solid black;
+  border-radius: 10px;
+  width: 50%;
+  background-color: lightgray;
+  margin: auto;
+  font-size: 2rem;
+  text-align: center;
+}
+/*# sourceMappingURL=style.css.map */

@@ -4,8 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ryktet Går - lobby</title>
+    <script src="lobby.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
+    <div class="container text-center">
+        <div class="invite">
+            <p>Invitasjons-url:</p>
+            <div class="tooltip">
+                <p class="link" style="color: #0066CC;" onclick="copyLink()" id="link">ryktetgar.no/waow</p>
+            </div>
+        </div>
+        <div class="buttons">
+            <a class="btn" href="/start">Start spill</a>
+        </div>
+        <div class="players">
+            <div class="player leader">
+                <div class="leader-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M3 16l-3-10 7.104 4 4.896-8 4.896 8 7.104-4-3 10h-18zm0 2v4h18v-4h-18z"/></svg>
+                </div>
+                <p>User1</p>
+            </div>
+            <div class="player">
+                <p>User2</p>
+            </div>
+        </div>
+        <div class="buttons">
+            <a class="btn" href="/">Forlat</a>
+        </div>
+    </div>
 </body>
 </html>

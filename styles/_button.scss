@@ -1,0 +1,22 @@
+.buttons {
+    display: grid;
+    grid-row-gap: 5px;
+    font-size: 2rem;
+    align-items: center;
+
+}
+
+.btn {
+    border: 1px solid black;
+    border-radius: 10px;
+    width: 50%;
+    background-color: lightgray;
+    margin: auto;
+    font-size: 2rem;
+    text-align: center;
+    // TODO: Hover and shadow
+}
+
+.btn-small {
+
+}

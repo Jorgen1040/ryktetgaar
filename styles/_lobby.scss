@@ -1,0 +1,40 @@
+.invite {
+    display: block;
+    font-size: 2.5rem;
+}
+
+p {
+    margin: 0px;
+}
+
+.players {
+    display: grid;
+    grid-row-gap: 5px;
+    align-items: center;
+}
+
+.player {
+    background-color: lightgray;
+    height: 50px;
+    line-height: 50px;
+    width: 50%;
+    margin: auto;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.leader-icon {
+    position: absolute;
+    left: 0.5em;
+    top: 0.5em;
+    // TODO: Fix this
+}
+
+.leader {
+    // If user is lobby leader add crown icon
+    // ? Do this in JS?
+}
+
+.you {
+    // Add text that says it is you and ability to edit name
+}
