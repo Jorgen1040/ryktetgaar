@@ -5,19 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Draw</title>
     <script src="draw.js"></script>
-    <style>
-        canvas {
-            margin: auto;
-            border: 5px solid gray;
-            border-radius: 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container text-center">
-        <canvas id="drawCanvas"></canvas>
-        <button onclick="submitDrawing()">Ferdig</button>
-        <input type="text" placeholder="Navn" id="playername">
+        <div class="drawWord">
+            <h3 class="text">Du skal tegne</h3>
+            <h2 class="word"></h2>
+        </div>
+        <div class="">
+            <canvas id="drawCanvas" class="canvas"></canvas>
+            <a class="btn" href="#" onclick="submitDrawing()">Ferdig</a>
+        </div>
     </div>
 </body>
 </html>

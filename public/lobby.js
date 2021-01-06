@@ -8,4 +8,5 @@ function copyLink() {
     document.execCommand("copy");
     window.getSelection().removeAllRanges();
     // Add tooltip to confirm link is copied
+    // Change hover tooltip to "Kopiert til utklippstavle"
 }

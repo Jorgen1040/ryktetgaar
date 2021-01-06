@@ -3,8 +3,8 @@ window.onload=function(){
     const ctx = canvas.getContext("2d");
     var drawing = false;
 
-    canvas.height = 800;
-    canvas.width = 800;
+    canvas.height = 500;
+    canvas.width = 500;
 
 
     function startDrawing(e){
