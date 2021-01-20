@@ -6,7 +6,7 @@ const fs = require('fs');
 const app = express();
 
 const port = process.env.PORT;
-const host = 'localhost';
+const host = "";
 
 //app.use(cors());
 app.use(express.json());
