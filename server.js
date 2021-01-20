@@ -53,7 +53,7 @@ app.post('/send', (req, res) => {
 
     req.on('end', function(){
         fs.appendFile(filePath, body, function() {
-            res.end("ok");
+            res.send("ok");
         });
     });
 });
