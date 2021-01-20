@@ -1,11 +1,16 @@
 window.onload=function(){
     const canvas = document.getElementById("drawCanvas");
+    const div = document.getElementsByClassName("canvasholder")[0]
     const ctx = canvas.getContext("2d");
     var drawing = false;
 
     canvas.height = 500;
     canvas.width = 500;
 
+    function resize() {
+        canvas.width = div.innerWidth;
+        canvas.height = div.innerHeight;
+    }
 
     function startDrawing(e){
         drawing = true;
@@ -21,8 +26,8 @@ window.onload=function(){
         if (!drawing) return;
         ctx.lineWidth = 5;
         ctx.lineCap = "round";
-        var posX = e.clientX - canvas.offsetLeft;
-        var posY = e.clientY - canvas.offsetTop;
+        var posX = e.offsetX;
+        var posY = e.offsetY;
 
         ctx.lineTo(posX, posY);
         ctx.stroke();
@@ -46,6 +51,8 @@ function submitDrawing(){
             "content-type": "application/json"
         },
         body: JSON.stringify({
+            //playerID: playerID,
+            // word: drawingWord,
             drawing: dataURL
         })
     });

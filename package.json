@@ -22,6 +22,9 @@
     "url": "https://github.com/Jorgen1040/ryktetgaar/issues"
   },
   "homepage": "https://github.com/Jorgen1040/ryktetgaar#readme",
+  "engines": {
+    "node": "14.x"
+  },
   "dependencies": {
     "bootstrap": "^5.0.0-beta1",
     "cors": "^2.8.5",
