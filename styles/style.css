@@ -81,6 +81,7 @@ p {
   margin: auto;
   font-size: 2rem;
   text-align: center;
+  cursor: pointer;
 }
 
 .canvas {
@@ -89,9 +90,8 @@ p {
   border-radius: 10px;
 }
 
-.drawClass {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+.canvasholder {
+  width: 500px;
+  height: 500px;
 }
 /*# sourceMappingURL=style.css.map */
