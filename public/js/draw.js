@@ -1,16 +1,10 @@
 window.onload=function(){
     const canvas = document.getElementById("drawCanvas");
-    const div = document.getElementsByClassName("canvasholder")[0]
     const ctx = canvas.getContext("2d");
     var drawing = false;
 
     canvas.height = 500;
     canvas.width = 500;
-
-    function resize() {
-        canvas.width = div.innerWidth;
-        canvas.height = div.innerHeight;
-    }
 
     function startDrawing(e){
         drawing = true;

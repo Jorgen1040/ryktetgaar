@@ -1,24 +1,30 @@
 const express = require('express');
 const path = require('path');
-const cors = require('cors');
+const http = require('http');
+const socketIO = require('socket.io');
+const nano = require('nanoid');
+
 const fs = require('fs');
 
 const app = express();
+const port = process.env.PORT || 3000;
+const server = http.createServer(app);
+const io = socketIO(server);
 
-const port = process.env.PORT;
-const host = "";
+const publicPath = path.join(__dirname, "public");
 
-//app.use(cors());
+const nanoid = nano.customAlphabet("abcdefghijklmnopqrstuvwxyz", 4)
+
 app.use(express.json());
 
 app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"))
+app.set("views", path.join(__dirname, "views"));
 
-app.listen(port, host, () => {
-    console.log(`Listening on port ${host}:${port}`);
+server.listen(port, () => {
+    console.log(`Listening on port ${port}`);
 });
-app.use(express.static("./public"));
-app.use(express.static("./styles"));
+
+app.use(express.static(publicPath));
 
 app.get('/', (req, res) => {
     res.render('index');
@@ -30,7 +36,8 @@ app.get('/lobby', (req, res) => {
 
 app.get('/new', (req, res) => {
     // Generate game ID and send them to the lobby
-    res.send('New game waow');
+    // Open socket.io connection and serve the correct lobby based on nanoid
+    res.send('New game waow' + nanoid());
 });
 
 app.get('/draw', (req, res) => {
