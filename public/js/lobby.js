@@ -1,3 +1,5 @@
+var socket = io();
+
 function copyLink() {
     var copyText = document.getElementById("link");
     var range = document.createRange();

@@ -4,7 +4,8 @@
   "description": "Ryktet Går på nett",
   "nodemonConfig": {
     "ignore": [
-      "data/*"
+      "data/*",
+      "game.json"
     ]
   },
   "main": "server.js",
