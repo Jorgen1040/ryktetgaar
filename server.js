@@ -1,30 +1,30 @@
-const express = require('express');
-const path = require('path');
-const http = require('http');
-const socketIO = require('socket.io');
-const nano = require('nanoid');
+import express, { json as _json, static } from 'express';
+import { join } from 'path';
+import { createServer } from 'http';
+import socketIO from 'socket.io';
+import { customAlphabet } from 'nanoid';
 
-const fs = require('fs');
+import { readFile, appendFile } from 'fs';
 
 const app = express();
 const port = process.env.PORT || 5000;
-const server = http.createServer(app);
+const server = createServer(app);
 const io = socketIO(server);
 
-const publicPath = path.join(__dirname, "public");
+const publicPath = join(__dirname, "public");
 
-const nanoid = nano.customAlphabet("abcdefghijklmnopqrstuvwxyz", 4)
+const nanoid = customAlphabet("abcdefghijklmnopqrstuvwxyz", 4)
 
-app.use(express.json());
+app.use(_json());
 
 app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
+app.set("views", join(__dirname, "views"));
 
 server.listen(port, () => {
     console.log(`Listening on port ${port}`);
 });
 
-app.use(express.static(publicPath));
+app.use(static(publicPath));
 
 // Socket IO testing ground
 io.on('connection', (socket) => {
@@ -40,9 +40,9 @@ io.on('connection', (socket) => {
 });
 
 function generateRoom(leader, username) {
-    
-    
-    fs.readFile("game.json", (data) => {
+
+
+    readFile("game.json", (data) => {
         let json = JSON.parse(data);
         console.log(leader, username)
         // do {
@@ -95,7 +95,7 @@ app.post('/send', (req, res) => {
     });
 
     req.on('end', function(){
-        fs.appendFile(filePath, body, function() {
+        appendFile(filePath, body, function() {
             res.send("ok");
         });
     });
