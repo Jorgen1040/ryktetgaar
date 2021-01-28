@@ -11,26 +11,9 @@ Første tegning -> Sendes til annen person som gjetter hva de ser ved å skrive 
 
 ## Database
 
-MongoDB? Eller bare en json fil
+~~MongoDB? Eller bare en json fil~~
 
-- [ ] Må finne ut av struktur kanskje noe sånt?
-
-    ```json
-    {
-        "gameID": {
-            "originalDrawings": {
-                "playerID": "base64",
-                "playerID2": "base64"
-            },
-            "currentDrawings": {
-                "playerID": "base64-encoded image"
-            },
-            "drawingOrder": {
-                "playerID": [ "originalWord", "originalDrawing", "guess1", "drawing1", "guess2", "drawing2", "guess3", "drawing3", "guess4", "drawing4" ]
-            }
-        }
-    }
-    ```
+Bruk classes og module.export til å lagre data, siden det uansett vil være midlertidig, og vil gjøre det lettere å hente/ vise til bruker.
 
 ## Milestones
 
@@ -39,6 +22,7 @@ MongoDB? Eller bare en json fil
   - [ ] Gi ord
   - [ ] Tegne
   - [ ] Skrive (gjette tegningen)
+  - [ ] Vise sider til brukeren via socket.io, brukeren har JS som endrer siden (for når man er i spillet)
 - [ ] Kunne tegne og lagre til databasen koblet til playerID
 - [ ] Vise den det lagret bilde til en annen person og vise forskjellige bilder for brukere (bruk cookies)
 - [ ] Socket.io (websocket for å oppdatere nettsiden for brukere)
