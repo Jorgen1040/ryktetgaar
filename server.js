@@ -1,4 +1,4 @@
-import express, { json as _json, static } from 'express';
+import express from 'express';
 import { join } from 'path';
 import { createServer } from 'http';
 import socketIO from 'socket.io';
@@ -15,7 +15,7 @@ const publicPath = join(__dirname, "public");
 
 const nanoid = customAlphabet("abcdefghijklmnopqrstuvwxyz", 4)
 
-app.use(_json());
+app.use(express.json());
 
 app.set("view engine", "ejs");
 app.set("views", join(__dirname, "views"));
@@ -24,7 +24,7 @@ server.listen(port, () => {
     console.log(`Listening on port ${port}`);
 });
 
-app.use(static(publicPath));
+app.use(express.static(publicPath));
 
 // Socket IO testing ground
 io.on('connection', (socket) => {
