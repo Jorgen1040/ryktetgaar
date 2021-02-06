@@ -8,6 +8,9 @@
       "game.json"
     ]
   },
+  "prettier": {
+    "tabWidth": 4
+  },
   "main": "server.js",
   "scripts": {
     "test": "nodemon server.js",
