@@ -10,7 +10,7 @@
 p {
     margin: 0px;
     padding: 0;
-    position: relative;
+    position:relative;
 }
 
 .players {
@@ -25,27 +25,18 @@ p {
     width: 50%;
     margin: auto;
     font-size: 1.5rem;
-    position: relative;
-    display: inline-flex;
-    justify-content: center;
     align-items: center;
 }
 
 .icon {
-    flex-grow: 1;
-}
-
-.icon svg {
-    height: 1em;
-    width: 1em;
-    top: .2em;
     position: relative;
+    top: 5px;
+    left: 15px;
+    float: left;
 }
 
 .playername {
-    // TODO: Fix username going off to one side
-    flex-grow: 3;
-    align-self: flex-start;
+    padding: auto;
 }
 
 .leader {
