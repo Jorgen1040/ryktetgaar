@@ -39,6 +39,10 @@ p {
     padding: auto;
 }
 
+.hidden {
+    display: none;
+}
+
 .leader {
     // If user is lobby leader add crown icon
     // ? Do this in JS?
@@ -48,6 +52,29 @@ p {
     // Add text that says it is you and ability to edit name
 }
 
-.tooltip {
-    // TODO: Add tooltip for when you've copied the URL
+.tooltiptext {
+    color: black;
+    font-size: 1.5rem;
+    // TODO: Use this to center name and float leader icon to left?
+    position: absolute;
+    left: 0;
+    right: 0;
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+.name {
+    font-size: 2.5rem;
+}
+
+input {
+    border: 1.5px solid black;
+    border-radius: 10px;
+    width: 50%;
+    margin: auto;
+    font-size: 2rem;
+    text-align: center;
+    font-family: 'Indie Flower', cursive;
+
+    // TODO: Fix weird border when selected
 }

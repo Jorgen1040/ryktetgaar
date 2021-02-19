@@ -9,32 +9,28 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <div class="container text-center">
+    <div class="container text-center lobby hidden">
         <div class="invite">
             <p>Invitasjons-url:</p>
-            <div class="tooltip">
-                <p class="link" onclick="copyLink()" id="link">ryktetgar.no/<%= roomID %></p>
+            <div class="link" onclick="copyLink()">
+                <span class="tooltiptext">Kopiert til utklippstavle</span>
             </div>
         </div>
         <div class="buttons">
             <a class="btn" href="/start">Start spill</a>
         </div>
-        <div class="players">
-            <div class="player">
-                <div class="icon leader">
-                    <!-- Replace this leader icon with icon fonts. See: https://google.github.io/material-design-icons/#icon-font-for-the-web -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path d="M3 16l-3-10 7.104 4 4.896-8 4.896 8 7.104-4-3 10h-18zm0 2v4h18v-4h-18z"/>
-                    </svg>
-                </div>
-                <div class="playername">User1</div>
-            </div>
-            <div class="player">
-                <p>User2</p>
-            </div>
-        </div>
+        <div class="players"></div>
         <div class="buttons">
             <a class="btn" href="/">Forlat</a>
+        </div>
+    </div>
+    <div class="container text-center name">
+        <p>Vennligst velg et navn:</p>
+        <div>
+            <input type="text" id="nameInput" placeholder="Ditt navn" autocomplete="off" autofocus><br>
+        </div>
+        <div class="buttons">
+            <a class="btn" id="nameConfirm" onclick='joinGame("<%= roomID %>", nameInput.value)'>Bekreft</a>
         </div>
     </div>
 </body>

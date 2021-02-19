@@ -1,5 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap");
 body {
   font-family: 'Indie Flower', cursive;
 }
@@ -74,6 +73,35 @@ p {
   padding: auto;
 }
 
+.hidden {
+  display: none;
+}
+
+.tooltiptext {
+  color: black;
+  font-size: 1.5rem;
+  position: absolute;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  -webkit-transition: opacity 1s;
+  transition: opacity 1s;
+}
+
+.name {
+  font-size: 2.5rem;
+}
+
+input {
+  border: 1.5px solid black;
+  border-radius: 10px;
+  width: 50%;
+  margin: auto;
+  font-size: 2rem;
+  text-align: center;
+  font-family: 'Indie Flower', cursive;
+}
+
 .buttons {
   display: -ms-grid;
   display: grid;
@@ -85,14 +113,19 @@ p {
 }
 
 .btn {
-  border: 1px solid black;
+  border: 1.5px solid black;
   border-radius: 10px;
   width: 50%;
-  background-color: lightgray;
+  background-color: #d3d3d3;
   margin: auto;
   font-size: 2rem;
   text-align: center;
   cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #bdbdbd;
+  border-color: #3f3f3f;
 }
 
 .canvas {

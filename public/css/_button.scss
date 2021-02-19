@@ -7,15 +7,19 @@
 }
 
 .btn {
-    border: 1px solid black;
+    border: 1.5px solid black;
     border-radius: 10px;
     width: 50%;
-    background-color: lightgray;
+    background-color: #d3d3d3;
     margin: auto;
     font-size: 2rem;
     text-align: center;
-    // TODO: Hover and shadow
     cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #bdbdbd;
+    border-color: #3f3f3f;
 }
 
 .btn-small {

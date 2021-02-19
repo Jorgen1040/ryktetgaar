@@ -5,6 +5,8 @@ const socketIO = require("socket.io");
 const nano = require("nanoid");
 
 const fs = require("fs");
+const Game = require("./server/game");
+const Client = require("./server/client");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -23,60 +25,55 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.static(publicPath));
 
 // Socket IO testing ground
+var games = [];
+
 io.on("connection", (socket) => {
     console.log(`user connected ${socket.id}`);
     socket.on("disconnect", () => {
         console.log("user disconnected");
-    });
-    socket.on("newRoom", (name) => {
-        //const userID = socket.id;
-        console.log("new room");
-        generateRoom(socket.id, name);
-    });
-});
+        // TODO: Handle disconnect from lobby
 
-function generateRoom(leader, username) {
-    fs.readFile("game.json", (data) => {
-        let json = JSON.parse(data);
-        console.log(leader, username);
-        // do {
-        //     var roomID = "ffff";
-        //     console.log(roomID);
-        // } while (roomID in json);
-        // Check if room code already exists
-        // if (roomID in json) return generateRoom(leader, username);
-        // let roomJson = {
-        //     "players": {
-        //         leader
-        //     }
-        // }
     });
-}
+    socket.on("join", (id, name) => {
+        for (i=0; i < games.length; i++) {
+            if (games[i].id === id){
+                const newClient = new Client(name, socket);
+                games[i].addClient(newClient);
+                games[i].updateClientList(io);
+                return
+            }
+        }
+        console.log("error") // ! Make this display error message (Lobby not found)
+    })
+});
 
 app.get("/", (req, res) => {
     res.render("index");
 });
 
-app.get("/lobby", (req, res) => {
-    res.render("lobby", { roomID: nanoid() });
-});
-
 app.get("/new", (req, res) => {
-    // Generate game ID and send them to the lobby
-    // Open socket.io connection and serve the correct lobby based on nanoid
-    //res.send('New game waow' + nanoid());
-    res.render("new");
+    const newGame = new Game(nanoid(), (id) => {
+        for (i=0; i < games.length; i++) {
+            if (games[i].id === id){
+                games.splice(i, 1);
+            }
+        }
+    });
+    games.push(newGame);
+    res.redirect('/' + newGame.id);
 });
 
 app.get("/draw", (req, res) => {
     res.render("draw");
 });
 
+app.get("/start", (req, res) => {
+    res.send("Funker ikke enda :)")
+})
+
 app.get("/:id", (req, res) => {
-    // Redirect to lobby, check if invite link is invalid
-    // Check database for room code, if invalid redirect to some error page or something
-    // Else send them to the socket.io room
-    res.send(req.params);
+    // TODO: Add check for invalid IDs and non existing rooms, give error
+    res.render("lobby", { roomID: req.params.id});
 });
 
 app.post("/send", (req, res) => {
@@ -93,8 +90,4 @@ app.post("/send", (req, res) => {
             res.send("ok");
         });
     });
-});
-
-app.get("getDrawing", (req, res) => {
-    // Get drawing from data.json and display for user
 });
