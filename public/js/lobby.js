@@ -10,7 +10,7 @@ window.onload = () => {
 }
 
 function copyLink() {
-    const copyText = document.querySelector(".link");
+    const copyText = document.querySelector(".link p");
     const range = document.createRange();
     const tooltiptext = document.querySelector(".tooltiptext");
 
@@ -19,9 +19,8 @@ function copyLink() {
     window.getSelection().addRange(range);
     document.execCommand("copy");
     window.getSelection().removeAllRanges();
-    // Add tooltip to confirm link is copied
-    // "Kopiert til utklippstavle"
-    // TODO: Tooltip
+
+    // Tooltip to confirm copy
     tooltiptext.style.opacity = 1;
     setTimeout(() => {tooltiptext.style.opacity = 0;}, 5000)
 
@@ -38,7 +37,6 @@ socket.on("updateClientList", (clients) => {
     const playerList = document.querySelector('.players');
     playerList.innerHTML = "";
     clients.forEach((player) => {
-        console.log(player.name);
         // TODO: Render leader in a better way than this
         if (player.isHost) {
             playerName = "👑" + player.name;
