@@ -28,12 +28,7 @@ app.use(express.static(publicPath));
 var games = [];
 
 io.on("connection", (socket) => {
-    console.log(`user connected ${socket.id}`);
-    socket.on("disconnect", () => {
-        console.log("user disconnected");
-        // TODO: Handle disconnect from lobby
-
-    });
+    //console.log(`user connected ${socket.id}`);
     socket.on("join", (id, name) => {
         for (i=0; i < games.length; i++) {
             if (games[i].id === id){
@@ -76,6 +71,7 @@ app.get("/:id", (req, res) => {
     res.render("lobby", { roomID: req.params.id});
 });
 
+// ? This might be obsolete, use socket.emit instead
 app.post("/send", (req, res) => {
     // TODO: Make this update a MongoDB or something idk (local or at least self hosted)
     var body = "";
