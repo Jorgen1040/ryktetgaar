@@ -11,6 +11,11 @@
     <div class="container text-center">
         <div class="text">
             <h1>Ryktet Går</h1>
+            <div class="error">
+                <% if (locals.error) { %>
+                    <p><%= error %> finnes ikke</p>
+                <% } %>
+            </div>
         </div>
         <div class="buttons">
             <a class="btn" href="/new" type="button">Nytt spill</a>

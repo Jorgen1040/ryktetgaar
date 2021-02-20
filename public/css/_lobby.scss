@@ -75,6 +75,6 @@ input {
     font-size: 2rem;
     text-align: center;
     font-family: 'Indie Flower', cursive;
-
-    // TODO: Fix weird border when selected
+    // Remove browser border
+    outline: none;
 }

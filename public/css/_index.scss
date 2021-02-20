@@ -29,3 +29,11 @@ a {
     grid-row-gap: 100px;
     margin: auto;
 }
+
+.error {
+    position: absolute;
+    color: red;
+    left: 0;
+    right: 0;
+    font-size: 1.5rem;
+}

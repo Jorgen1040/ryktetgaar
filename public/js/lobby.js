@@ -1,13 +1,14 @@
-const socket = io();
-window.onload = () => {
-    const linkDiv = document.querySelector(".link");
-    const link = window.location.href.replace(/(http:\/\/)|(https:\/\/)/g, "");
-    const tooltiptext = document.querySelector(".tooltiptext");
-    var linkText = document.createElement("p");
-    linkText.textContent = link;
+//  ? This could technically be converted to a class, but whatever. Lets make it work first
 
-    linkDiv.insertBefore(linkText, tooltiptext);
-}
+const socket = io();
+const linkDiv = document.querySelector(".link");
+const link = window.location.href.replace(/(http:\/\/)|(https:\/\/)/g, "");
+const code = link.slice(-4);
+const tooltiptext = document.querySelector(".tooltiptext");
+var linkText = document.createElement("p");
+linkText.textContent = link;
+
+linkDiv.insertBefore(linkText, tooltiptext);
 
 function copyLink() {
     const copyText = document.querySelector(".link p");
@@ -24,6 +25,34 @@ function copyLink() {
     tooltiptext.style.opacity = 1;
     setTimeout(() => {tooltiptext.style.opacity = 0;}, 5000)
 
+}
+
+const nameInput = document.querySelector("#nameInput");
+const confirmButton = document.querySelector("#nameConfirm");
+
+nameInput.addEventListener("input", () => {
+    validateUserName(nameInput.value)
+});
+
+confirmButton.addEventListener("click", () => {
+    joinGame(code, nameInput.value)
+});
+
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+        joinGame(code, nameInput.value);
+    }
+});
+
+
+function validateUserName(name) {
+    // ? Maybe sanitize with RegEx if needed? "/([A-z])/g"
+    if (name.length === 0) {
+        // Disable confirm button
+        confirmButton.classList.add("disabled")
+    } else {
+        confirmButton.classList.remove("disabled")
+    }
 }
 
 // TODO: Add start game function

@@ -18,10 +18,13 @@
 }
 
 .btn:hover {
+    // TODO: Box-shadow for hover effect?
     background-color: #bdbdbd;
     border-color: #3f3f3f;
 }
 
-.btn-small {
-
+.btn.disabled {
+    cursor: not-allowed;
+    background-color: #8f8c8c;
+    color: #262626;
 }

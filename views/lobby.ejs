@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ryktet Går - lobby</title>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="/js/lobby.js"></script>
+    <script defer src="/js/lobby.js"></script>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+    <!-- TODO: Change all a.btn to button.btn -->
     <div class="container text-center lobby hidden">
         <div class="invite">
             <p>Invitasjons-url:</p>
@@ -27,10 +28,10 @@
     <div class="container text-center name">
         <p>Vennligst velg et navn:</p>
         <div>
-            <input type="text" id="nameInput" placeholder="Ditt navn" autocomplete="off" autofocus><br>
+            <input type="text" id="nameInput" placeholder="Ditt navn" autocomplete="off" maxlength="12" autofocus><br>
         </div>
         <div class="buttons">
-            <a class="btn" id="nameConfirm" onclick='joinGame("<%= roomID %>", nameInput.value)'>Bekreft</a>
+            <a class="btn disabled" id="nameConfirm">Bekreft</a>
         </div>
     </div>
 </body>

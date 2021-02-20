@@ -29,6 +29,14 @@ a {
   margin: auto;
 }
 
+.error {
+  position: absolute;
+  color: red;
+  left: 0;
+  right: 0;
+  font-size: 1.5rem;
+}
+
 .invite {
   display: block;
   font-size: 2.5rem;
@@ -100,6 +108,7 @@ input {
   font-size: 2rem;
   text-align: center;
   font-family: 'Indie Flower', cursive;
+  outline: none;
 }
 
 .buttons {
@@ -126,6 +135,12 @@ input {
 .btn:hover {
   background-color: #bdbdbd;
   border-color: #3f3f3f;
+}
+
+.btn.disabled {
+  cursor: not-allowed;
+  background-color: #8f8c8c;
+  color: #262626;
 }
 
 .canvas {

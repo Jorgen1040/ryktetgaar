@@ -1,14 +1,13 @@
 class Game {
     constructor(id, onEmpty) {
         this.id = id;
-        // ? The readable name, probably not that many at a time this.roomName = roomName;
         this.host;
         this.clients = [];
         this.onEmpty = onEmpty;
         this.chain = [];
     }
     addClient(client) {
-        // Make client join socketio room
+        // Join SocketIO room
         client.socket.join(this.id)
         if (this.clients.length === 0) {
             this.host = client;
@@ -41,7 +40,6 @@ class Game {
             clients.push(client.getJson());
         });
         io.to(this.id).emit("updateClientList", clients);
-        //console.log("Updating client list")
     }
 }
 

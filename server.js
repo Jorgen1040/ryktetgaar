@@ -24,12 +24,11 @@ app.set("views", path.join(__dirname, "views"));
 
 app.use(express.static(publicPath));
 
-// Socket IO testing ground
 var games = [];
 
 io.on("connection", (socket) => {
-    //console.log(`user connected ${socket.id}`);
     socket.on("join", (id, name) => {
+        // TODO: Validate name here as well, as it might be able to be used maliciously?
         for (i=0; i < games.length; i++) {
             if (games[i].id === id){
                 const newClient = new Client(name, socket);
@@ -41,8 +40,11 @@ io.on("connection", (socket) => {
         console.log("error") // ! Make this display error message (Lobby not found)
     })
 });
-
+app.get('/favicon.ico', (req, res) => res.status(204)); // TODO: Add a favicon, so i dont have to do this
 app.get("/", (req, res) => {
+    if (req.query.error) {
+        return res.render("index", { error: req.query.error });
+    }
     res.render("index");
 });
 
@@ -67,8 +69,13 @@ app.get("/start", (req, res) => {
 })
 
 app.get("/:id", (req, res) => {
-    // TODO: Add check for invalid IDs and non existing rooms, give error
-    res.render("lobby", { roomID: req.params.id});
+    var id = req.params.id;
+    for (i=0; i < games.length; i++) {
+        if (games[i].id === id){
+            return res.render("lobby", { roomID: id});
+        }
+    }
+    res.redirect("/?error=" + id);
 });
 
 // ? This might be obsolete, use socket.emit instead
