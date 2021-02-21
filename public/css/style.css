@@ -130,11 +130,21 @@ input {
   font-size: 2rem;
   text-align: center;
   cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  -webkit-transition: background-color 200ms ease 0ms, border 200ms ease 0ms, -webkit-box-shadow 200ms ease 0ms;
+  transition: background-color 200ms ease 0ms, border 200ms ease 0ms, -webkit-box-shadow 200ms ease 0ms;
+  transition: background-color 200ms ease 0ms, box-shadow 200ms ease 0ms, border 200ms ease 0ms;
+  transition: background-color 200ms ease 0ms, box-shadow 200ms ease 0ms, border 200ms ease 0ms, -webkit-box-shadow 200ms ease 0ms;
 }
 
 .btn:hover {
-  background-color: #bdbdbd;
-  border-color: #3f3f3f;
+  -webkit-box-shadow: 0px 5px 20px rgba(150, 150, 150, 0.986);
+          box-shadow: 0px 5px 20px rgba(150, 150, 150, 0.986);
+  background-color: #c4c4c4;
+  border: 1.5px solid #3f3f3f;
 }
 
 .btn.disabled {

@@ -20,6 +20,7 @@ class Game {
     }
     removeClient(client) {
         // TODO: Allow for reconnection
+        // ! This is too slow
         const index = this.clients.indexOf(client);
         this.clients.splice(index, 1);
         // Delete game if empty

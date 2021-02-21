@@ -35,7 +35,8 @@ nameInput.addEventListener("input", () => {
 });
 
 confirmButton.addEventListener("click", () => {
-    joinGame(code, nameInput.value)
+    if (nameInput.value.length === 0) return;
+    joinGame(code, nameInput.value);
 });
 
 document.addEventListener("keydown", (e) => {
