@@ -77,20 +77,3 @@ app.get("/:id", (req, res) => {
     }
     res.redirect("/?error=" + id);
 });
-
-// TODO: Use socket.emit instead
-// app.post("/send", (req, res) => {
-//     // TODO: Make this update a MongoDB or something idk (local or at least self hosted)
-//     var body = "";
-//     filePath = __dirname + "/data/data.json";
-//     console.log(req.body);
-//     req.on("data", function (data) {
-//         body += data;
-//     });
-
-//     req.on("end", function () {
-//         fs.appendFile(filePath, body, function () {
-//             res.send("ok");
-//         });
-//     });
-// });
