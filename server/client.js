@@ -12,7 +12,7 @@ class Client {
         return {
             name: this.name,
             isHost: this.isHost,
-        };
+        }
     }
 }
 

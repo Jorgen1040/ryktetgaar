@@ -35,8 +35,9 @@ nameInput.addEventListener("input", () => {
 });
 
 confirmButton.addEventListener("click", () => {
-    if (nameInput.value.length === 0) return;
-    joinGame(code, nameInput.value);
+    if (nameInput.value) {
+        joinGame(code, nameInput.value);
+    }
 });
 
 document.addEventListener("keydown", (e) => {
@@ -44,6 +45,12 @@ document.addEventListener("keydown", (e) => {
         joinGame(code, nameInput.value);
     }
 });
+
+// ? This is a prevention to stop players from getting disconnected when reloading, but also happens on meaning to leave game. Kind of annoying
+// window.addEventListener("beforeunload", (e) => {
+//     e.preventDefault();
+//     e.returnValue = "";
+// });
 
 
 function validateUserName(name) {
@@ -64,6 +71,7 @@ function joinGame(id, name) {
 }
 
 socket.on("updateClientList", (clients) => {
+    //if (clients.length === 0) window.location.replace(window.location.href.slice(0, -4) + "?error=" + code);
     const playerList = document.querySelector('.players');
     playerList.innerHTML = "";
     clients.forEach((player) => {
@@ -78,4 +86,9 @@ socket.on("updateClientList", (clients) => {
         player.textContent = playerName;
         playerList.appendChild(player);
     });
+});
+
+// Temporary fix for not being able to reconnect, at least in lobby
+socket.on("error", (error) => {
+    window.location.replace(window.location.href.slice(0, -4) + "?error=" + code);
 });

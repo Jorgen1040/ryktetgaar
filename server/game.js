@@ -8,21 +8,21 @@ class Game {
     }
     addClient(client) {
         // Join SocketIO room
-        client.socket.join(this.id)
+        client.socket.join(this.id);
         if (this.clients.length === 0) {
             this.host = client;
             client.makeHost();
         }
         this.clients.push(client);
         client.socket.on("disconnect", () => {
+            // TODO: Allow for reconnection. See: https://stackoverflow.com/questions/20260170/handle-browser-reload-socket-io
             this.removeClient(client);
         });
     }
     removeClient(client) {
-        // TODO: Allow for reconnection
-        // ! This is too slow
         const index = this.clients.indexOf(client);
         this.clients.splice(index, 1);
+        // TODO: This is too slow, allowing a user to "connect" to a non existing room.
         // Delete game if empty
         if (this.clients.length === 0) {
             this.onEmpty(this.id);
@@ -33,14 +33,15 @@ class Game {
             this.host= this.clients[0];
             this.clients[0].makeHost();
         }
+        client.socket.leave(this.id)
         this.updateClientList(client.socket);
     }
-    updateClientList(io) {
-        var clients = [];
+    updateClientList(socket) {
+        let clients = [];
         this.clients.forEach((client) => {
             clients.push(client.getJson());
         });
-        io.to(this.id).emit("updateClientList", clients);
+        socket.to(this.id).emit("updateClientList", clients);
     }
 }
 

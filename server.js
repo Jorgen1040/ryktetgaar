@@ -2,7 +2,7 @@ const express = require("express");
 const path = require("path");
 const http = require("http");
 const socketIO = require("socket.io");
-const nano = require("nanoid");
+const nanoid = require("nanoid");
 
 const fs = require("fs");
 const Game = require("./server/game");
@@ -15,7 +15,8 @@ const io = socketIO(server);
 
 const publicPath = path.join(__dirname, "public");
 
-const nanoid = nano.customAlphabet("abcdefghijklmnopqrstuvwxyz", 4);
+// Use customAlphabet to make a 4 character room ID generator
+const nano = nanoid.customAlphabet("abcdefghijklmnopqrstuvwxyz", 4);
 
 app.use(express.json());
 
@@ -24,18 +25,20 @@ app.set("views", path.join(__dirname, "views"));
 
 app.use(express.static(publicPath));
 
-var games = [];
+var games = {};
 
 io.on("connection", (socket) => {
     socket.on("join", (id, name) => {
-        // TODO: Validate name here as well, as it might be able to be used maliciously?
-        for (i=0; i < games.length; i++) {
-            if (games[i].id === id){
+        if (name.length === 0 || name.length > 12) {
+            return;
+        }
+        if (games[id]) {
                 const newClient = new Client(name, socket);
-                games[i].addClient(newClient);
-                games[i].updateClientList(io);
-                return
-            }
+                games[id].addClient(newClient);
+                games[id].updateClientList(io);
+        } else {
+            // For when a single host refreshes
+            socket.emit("error");
         }
     });
 });
@@ -50,27 +53,13 @@ app.get("/", (req, res) => {
 });
 
 app.get("/new", (req, res) => {
-    const newGame = new Game(nanoid(), (id) => {
-        for (i=0; i < games.length; i++) {
-            if (games[i].id === id){
-                games.splice(i, 1);
-            }
-        }
+    let gameID = nano()
+    games[gameID] = new Game(gameID, (id) => {
+        delete games[id];
     });
-    games.push(newGame);
-    res.redirect('/' + newGame.id);
+    res.redirect('/' + gameID);
 });
 
-app.get("/:id", (req, res) => {
-    var id = req.params.id;
-    for (i=0; i < games.length; i++) {
-        if (games[i].id === id) {
-            // TODO: Fix issue when reloading, not deleting room quick enough
-            return res.render("lobby", { roomID: id });
-        }
-    }
-    res.redirect("/?error=" + id);
-});
 
 app.get("/draw", (req, res) => {
     res.render("draw");
@@ -78,6 +67,15 @@ app.get("/draw", (req, res) => {
 
 app.get("/start", (req, res) => {
     res.send("Funker ikke enda :)")
+});
+
+app.get("/:id", (req, res) => {
+    let id = req.params.id;
+    if (games[id]) {
+            // TODO: Fix issue when reloading, not deleting room quick enough
+            return res.render("lobby", { roomID: id });
+    }
+    res.redirect("/?error=" + id);
 });
 
 // TODO: Use socket.emit instead
