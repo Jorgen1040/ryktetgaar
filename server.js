@@ -72,7 +72,6 @@ app.get("/start", (req, res) => {
 app.get("/:id", (req, res) => {
     let id = req.params.id;
     if (games[id]) {
-            // TODO: Fix issue when reloading, not deleting room quick enough
             return res.render("lobby", { roomID: id });
     }
     res.redirect("/?error=" + id);
