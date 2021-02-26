@@ -29,10 +29,9 @@ p {
 }
 
 .icon {
-    position: relative;
-    top: 5px;
-    left: 15px;
-    float: left;
+    display: inline;
+    position: absolute;
+    left: 27%;
 }
 
 .playername {
