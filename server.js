@@ -69,6 +69,7 @@ app.get("/", (req, res) => {
 app.get("/new", (req, res) => {
     let gameID = nano()
     games[gameID] = new Game(gameID, (id) => {
+        // This runs onEmpty
         delete games[id];
     });
     res.redirect('/' + gameID);
