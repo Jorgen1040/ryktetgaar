@@ -3,6 +3,8 @@ const path = require("path");
 const http = require("http");
 const socketIO = require("socket.io");
 const nanoid = require("nanoid");
+const helmet = require("helmet");
+//const nocache = require("nocache");
 
 const fs = require("fs");
 const Game = require("./server/game");
@@ -19,6 +21,8 @@ const publicPath = path.join(__dirname, "public");
 const nano = nanoid.customAlphabet("abcdefghijklmnopqrstuvwxyz", 4);
 
 app.use(express.json());
+app.use(helmet());
+//app.use(nocache());
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -33,21 +37,31 @@ io.on("connection", (socket) => {
             return;
         }
         if (games[id]) {
-                const newClient = new Client(name, socket);
-                games[id].addClient(newClient);
-                games[id].updateClientList(io);
+            if (games[id].started) {
+                return socket.emit("error", "started");
+            }
+            const newClient = new Client(name, socket);
+            games[id].addClient(newClient);
+            games[id].updateClientList(io);
         } else {
             // For when a single host refreshes
-            socket.emit("error");
+            socket.emit("error", "invalid");
         }
+        socket.on("startGame", (id) => {
+            // TODO: Verify host, and run start game
+            games[id].startGame(socket);
+        });
     });
 });
 
-app.get('/favicon.ico', (req, res) => res.status(204)); // TODO: Add a favicon, so i dont have to do this
+app.get('/favicon.ico', (req, res) => res.status(204).end()); // TODO: Add a favicon, so i dont have to do this
 
 app.get("/", (req, res) => {
-    if (req.query.error) {
-        return res.render("index", { error: req.query.error });
+    if (req.query.invalid) {
+        return res.render("index", { invalid: req.query.invalid });
+    }
+    if (req.query.started) {
+        return res.render("index", { started: req.query.started });
     }
     res.render("index");
 });
@@ -72,7 +86,10 @@ app.get("/start", (req, res) => {
 app.get("/:id", (req, res) => {
     let id = req.params.id;
     if (games[id]) {
-            return res.render("lobby", { roomID: id });
+        if (games[id].started) {
+            return res.redirect("/?started=" + id);
+        }
+        return res.render("lobby", { roomID: id });
     }
-    res.redirect("/?error=" + id);
+    res.redirect("/?invalid=" + id);
 });

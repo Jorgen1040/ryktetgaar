@@ -1,10 +1,12 @@
 //  ? This could technically be converted to a class, but whatever. Lets make it work first
 
 const socket = io();
+
 const linkDiv = document.querySelector(".link");
 const link = window.location.href.replace(/(http:\/\/)|(https:\/\/)/g, "");
 const code = link.slice(-4);
 const tooltiptext = document.querySelector(".tooltiptext");
+const startButton = document.querySelector("#startButton");
 var linkText = document.createElement("p");
 linkText.textContent = link;
 
@@ -41,16 +43,32 @@ confirmButton.addEventListener("click", () => {
 });
 
 document.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-        joinGame(code, nameInput.value);
+    if (nameInput.value) {
+        if (e.key === "Enter") {
+            joinGame(code, nameInput.value);
+        }
     }
 });
 
-// ? This is a prevention to stop players from getting disconnected when reloading, but also happens on meaning to leave game. Kind of annoying
+startButton.addEventListener("click", () => {
+    if (!startButton.classList.contains("disabled")) {
+        socket.emit("startGame", code);
+    }
+});
+
+// * This is a prevention to stop players from getting disconnected when reloading, but also happens on meaning to leave game. Kind of annoying
+// TODO: Run this after game starts
 // window.addEventListener("beforeunload", (e) => {
 //     e.preventDefault();
 //     e.returnValue = "";
 // });
+
+// When host refresehes, send to home with error
+window.addEventListener("beforeunload", (e) => {
+    if (document.querySelectorAll(".player").length === 1) {
+        window.location.href(window.location.href.slice(0, -4) + "?invalid=" + code);
+    }
+});
 
 
 function validateUserName(name) {
@@ -86,9 +104,20 @@ socket.on("updateClientList", (clients) => {
         player.textContent = playerName;
         playerList.appendChild(player);
     });
+    // TODO: Remove start button for users non host
+    if (document.querySelectorAll(".player").length > 3) {
+        startButton.classList.remove("disabled");
+    } else {
+        startButton.classList.add("disabled");
+    }
 });
 
 // Temporary fix for not being able to reconnect, at least in lobby
 socket.on("error", (error) => {
-    window.location.replace(window.location.href.slice(0, -4) + "?error=" + code);
+    if(error === "invalid") {
+        window.location.replace(window.location.href.slice(0, -4) + "?invalid=" + code);
+    }
+    if(error === "started") {
+        window.location.replace(window.location.href.slice(0, -4) + "?started=" + code);
+    }
 });

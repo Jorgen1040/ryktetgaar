@@ -2,9 +2,11 @@ class Game {
     constructor(id, onEmpty) {
         this.id = id;
         this.host;
+        // TODO: Convert client list to an object to allow for easier search?
         this.clients = [];
         this.onEmpty = onEmpty;
         this.chain = [];
+        this.started = false;
     }
     addClient(client) {
         // Join SocketIO room
@@ -43,6 +45,14 @@ class Game {
             clients.push(client.getJson());
         });
         socket.to(this.id).emit("updateClientList", clients);
+    }
+    startGame(socket) {
+        for (client in this.clients) {
+            if (client.id === socket.id && this.host === client) {
+                return this.started = true;
+            }
+        }
+
     }
 }
 
