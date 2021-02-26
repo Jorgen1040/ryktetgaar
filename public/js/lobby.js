@@ -12,6 +12,10 @@ linkText.textContent = link;
 
 linkDiv.insertBefore(linkText, tooltiptext);
 
+linkDiv.addEventListener("click", () => {
+    copyLink();
+});
+
 function copyLink() {
     const copyText = document.querySelector(".link p");
     const range = document.createRange();
@@ -64,13 +68,7 @@ startButton.addEventListener("click", () => {
 // });
 
 // When host refresehes, send to home with error
-// ! This doesnt work for some reason, figure this out
-window.addEventListener("beforeunload", (e) => {
-    if (document.querySelectorAll(".player").length === 1) {
-        window.location.href(window.location.href.slice(0, -4) + "?invalid=" + code);
-    }
-});
-
+socket.emit("checkID", code);
 
 function validateUserName(name) {
     // ? Maybe sanitize with RegEx if needed? "/([A-z])/g"

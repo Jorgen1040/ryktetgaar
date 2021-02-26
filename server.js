@@ -5,6 +5,7 @@ const socketIO = require("socket.io");
 const nanoid = require("nanoid");
 const helmet = require("helmet");
 //const nocache = require("nocache");
+const morgan = require("morgan");
 
 const fs = require("fs");
 const Game = require("./server/game");
@@ -23,6 +24,7 @@ const nano = nanoid.customAlphabet("abcdefghijklmnopqrstuvwxyz", 4);
 app.use(express.json());
 app.use(helmet());
 //app.use(nocache());
+app.use(morgan('dev'));
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -32,6 +34,11 @@ app.use(express.static(publicPath));
 var games = {};
 
 io.on("connection", (socket) => {
+    socket.on("checkID", (id) => {
+        if (!games[id]) {
+            socket.emit("error", "invalid");
+        }
+    });
     socket.on("join", (id, name) => {
         if (name.length === 0 || name.length > 12) {
             return;

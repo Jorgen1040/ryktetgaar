@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Draw</title>
-    <script src="/js/draw.js"></script>
+    <script defer src="/js/draw.js"></script>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
@@ -15,8 +15,9 @@
         </div>
         <div class="canvasholder">
             <canvas id="drawCanvas" class="canvas"></canvas>
-            <!-- TODO: Also make this an eventListener -->
-            <a class="btn" onclick="submitDrawing()">Ferdig</a>
+            <div class="buttons">
+                <a class="btn" id="submitButton">Ferdig</a>
+            </div>
         </div>
     </div>
 </body>
