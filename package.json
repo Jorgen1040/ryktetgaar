@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "Ryktet Går på nett",
   "nodemonConfig": {
-    "ignore": [
-      "data/*",
-      "game.json"
+    "watch": [
+      "server.js",
+      "server/"
     ]
   },
   "prettier": {

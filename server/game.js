@@ -22,6 +22,7 @@ class Game {
         });
     }
     removeClient(client) {
+        client.socket.leave(this.id)
         const index = this.clients.indexOf(client);
         this.clients.splice(index, 1);
         // TODO: This is too slow, allowing a user to "connect" to a non existing room.
@@ -36,7 +37,6 @@ class Game {
             this.host= this.clients[0];
             this.clients[0].makeHost();
         }
-        client.socket.leave(this.id)
         this.updateClientList(client.socket);
     }
     updateClientList(socket) {
@@ -47,12 +47,12 @@ class Game {
         socket.to(this.id).emit("updateClientList", clients);
     }
     startGame(socket) {
-        for (client in this.clients) {
+        this.clients.forEach((client) => {
             if (client.id === socket.id && this.host === client) {
+                console.log("Game started")
                 return this.started = true;
-            }
-        }
-
+            } 
+        });
     }
 }
 
