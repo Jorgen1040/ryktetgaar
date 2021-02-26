@@ -39,6 +39,7 @@ app.use(express.static(publicPath));
 var games = {};
 
 io.on("connection", (socket) => {
+    // Checks the ID, runs on lobby screen refresh
     socket.on("checkID", (id) => {
         if (!games[id]) {
             socket.emit("error", "invalid");
@@ -56,7 +57,7 @@ io.on("connection", (socket) => {
             games[id].addClient(newClient);
             games[id].updateClientList(io);
         } else {
-            // For when a single host refreshes
+            // Send error if game doesn't exist
             socket.emit("error", "invalid");
         }
         socket.on("startGame", (id) => {

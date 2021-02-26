@@ -67,7 +67,7 @@ startButton.addEventListener("click", () => {
 //     e.returnValue = "";
 // });
 
-// When host refresehes, send to home with error
+// When host refreshes, send to home with error
 socket.emit("checkID", code);
 
 function validateUserName(name) {
@@ -92,18 +92,21 @@ socket.on("updateClientList", (clients) => {
     const playerList = document.querySelector('.players');
     playerList.innerHTML = "";
     clients.forEach((player) => {
+        var playerDiv = document.createElement("div");
+        playerDiv.className = "player";
+        playerDiv.textContent = player.name;
+        playerList.appendChild(playerDiv);
         // TODO: Render leader in a better way than this
         if (player.isHost) {
-            playerName = "👑" + player.name;
-        } else {
-            playerName = player.name;
+            var icon = document.createElement("div");
+            icon.className = "icon";
+            icon.textContent = "👑";
+            playerDiv.appendChild(icon);
         }
-        var player = document.createElement("div");
-        player.className = "player";
-        player.textContent = playerName;
-        playerList.appendChild(player);
+        if (player.id === socket.id && player.isHost) {
+            startButton.classList.remove("hidden")
+        }
     });
-    // TODO: Remove start button for users non host
     if (document.querySelectorAll(".player").length > 3) {
         startButton.classList.remove("disabled");
     } else {
