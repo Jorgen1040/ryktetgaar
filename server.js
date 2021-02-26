@@ -24,7 +24,12 @@ const nano = nanoid.customAlphabet("abcdefghijklmnopqrstuvwxyz", 4);
 app.use(express.json());
 app.use(helmet());
 //app.use(nocache());
-app.use(morgan('dev'));
+
+process.env.NODE_ENV = process.env.NODE_ENV || "development"
+
+if (process.env.NODE_ENV === "development") {
+    app.use(morgan('dev'));
+}
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
