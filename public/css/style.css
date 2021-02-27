@@ -176,6 +176,7 @@ input {
 
 .buttons.inline .btn {
   margin: 0px;
+  width: 125px;
 }
 
 .btn.right {
@@ -194,6 +195,7 @@ input {
 
 .votebar {
   margin: auto;
+  font-size: 1.3rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;

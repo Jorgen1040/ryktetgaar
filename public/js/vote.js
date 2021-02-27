@@ -20,6 +20,8 @@ wrongButton.addEventListener("click", () => {
 function updateVoteBar() {
     // Hide buttons once voted, disabled for testing
     // voteButtons.classList.add("hidden");
+    // TODO: Add socketio functionality :)
+    // * When adding socketio, do percentage calculations serverside
     var totalVotes = wrongVotes + rightVotes;
     var rightPercentage = Math.round(rightVotes/totalVotes*100);
     var wrongPercentage = Math.round(wrongVotes/totalVotes*100);
