@@ -81,7 +81,7 @@ p {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .tooltiptext {
@@ -161,5 +161,68 @@ input {
 .canvasholder {
   width: 500px;
   height: 500px;
+}
+
+:root {
+  --right-color: #00BF08;
+  --wrong-color: #ff0000;
+}
+
+.buttons.inline {
+      grid-template-areas: ". .";
+  -webkit-column-gap: 15px;
+          column-gap: 15px;
+}
+
+.buttons.inline .btn {
+  margin: 0px;
+}
+
+.btn.right {
+  color: var(--right-color);
+  border-color: var(--right-color) !important;
+  -ms-grid-column-align: end;
+      justify-self: end;
+}
+
+.btn.wrong {
+  color: var(--wrong-color);
+  border-color: var(--wrong-color) !important;
+  -ms-grid-column-align: start;
+      justify-self: start;
+}
+
+.votebar {
+  margin: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 75%;
+  justify-self: center;
+  -webkit-box-pack: stretch;
+      -ms-flex-pack: stretch;
+          justify-content: stretch;
+  -webkit-transition: -webkit-box-flex 500ms ease 0ms;
+  transition: -webkit-box-flex 500ms ease 0ms;
+  transition: flex 500ms ease 0ms;
+  transition: flex 500ms ease 0ms, -webkit-box-flex 500ms ease 0ms, -ms-flex 500ms ease 0ms;
+}
+
+.red {
+  background-color: var(--wrong-color);
+  border-radius: 0px 5px 5px 0px;
+  -webkit-transition: -webkit-box-flex 1000ms ease 0ms;
+  transition: -webkit-box-flex 1000ms ease 0ms;
+  transition: flex 1000ms ease 0ms;
+  transition: flex 1000ms ease 0ms, -webkit-box-flex 1000ms ease 0ms, -ms-flex 1000ms ease 0ms;
+}
+
+.green {
+  background-color: var(--right-color);
+  border-radius: 5px 0px 0px 5px;
+  -webkit-transition: -webkit-box-flex 1000ms ease 0ms;
+  transition: -webkit-box-flex 1000ms ease 0ms;
+  transition: flex 1000ms ease 0ms;
+  transition: flex 1000ms ease 0ms, -webkit-box-flex 1000ms ease 0ms, -ms-flex 1000ms ease 0ms;
 }
 /*# sourceMappingURL=style.css.map */

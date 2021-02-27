@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ryktet Går - lobby</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script defer src="/js/vote.js"></script>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container text-center vote">
+        <h1>Vote:</h1>
+        <div class="votebox">
+            <div class="votebar">
+                <div class="green"></div>
+                <div class="red"></div>
+            </div>
+            <div class="buttons inline" id="voteButtons">
+                <div class="btn right">Riktig</div>
+                <div class="btn wrong">Feil</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

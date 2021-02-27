@@ -39,7 +39,7 @@ p {
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 .you {
@@ -49,7 +49,6 @@ p {
 .tooltiptext {
     color: black;
     font-size: 1.5rem;
-    // TODO: Use this to center name and float leader icon to left?
     position: absolute;
     left: 0;
     right: 0;

@@ -93,6 +93,10 @@ app.get("/draw", (req, res) => {
     res.render("draw");
 });
 
+app.get("/vote", (req, res) => {
+    res.render("vote");
+});
+
 app.get("/start", (req, res) => {
     res.send("Funker ikke enda :)")
 });

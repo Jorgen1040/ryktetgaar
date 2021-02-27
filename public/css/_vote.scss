@@ -1,0 +1,46 @@
+:root {
+    --right-color: #00BF08;
+    --wrong-color: #ff0000;
+}
+
+.buttons.inline {
+    grid-template-areas: ". .";
+    column-gap: 15px;
+}
+
+.buttons.inline .btn {
+    margin: 0px;
+}
+
+.btn.right {
+    color: var(--right-color);
+    border-color: var(--right-color) !important;
+    justify-self: end;
+}
+
+.btn.wrong {
+    color: var(--wrong-color);
+    border-color: var(--wrong-color) !important;
+    justify-self: start;
+}
+
+.votebar {
+    margin: auto;
+    display: flex;
+    width: 75%;
+    justify-self: center;
+    justify-content: stretch;
+    transition: flex 500ms ease 0ms;
+}
+
+.red {
+    background-color: var(--wrong-color);
+    border-radius: 0px 5px 5px 0px;
+    transition: flex 1000ms ease 0ms;
+}
+
+.green {
+    background-color: var(--right-color);
+    border-radius: 5px 0px 0px 5px;
+    transition: flex 1000ms ease 0ms;
+}
