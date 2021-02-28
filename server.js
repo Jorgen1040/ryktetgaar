@@ -10,6 +10,8 @@ const morgan = require("morgan");
 const fs = require("fs");
 const Game = require("./server/game");
 const Client = require("./server/client");
+const Words = require("./server/words");
+var games = {};
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -29,14 +31,18 @@ process.env.NODE_ENV = process.env.NODE_ENV || "development"
 
 if (process.env.NODE_ENV === "development") {
     app.use(morgan('dev'));
+    games["7777"] = new Game("7777", io, () => {
+        console.log("onEmpty triggered, but game is dev");
+    });
+    var devWords = new Words();
+    devWords.loadWords();
+    //console.log(devWords.words);
 }
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 app.use(express.static(publicPath));
-
-var games = {};
 
 io.on("connection", (socket) => {
     // Checks the ID, runs on lobby screen refresh
@@ -55,15 +61,10 @@ io.on("connection", (socket) => {
             }
             const newClient = new Client(name, socket);
             games[id].addClient(newClient);
-            games[id].updateClientList(io);
         } else {
             // Send error if game doesn't exist
             socket.emit("error", "invalid");
         }
-        socket.on("startGame", (id) => {
-            // TODO: Verify host, and run start game
-            games[id].startGame(socket);
-        });
     });
 });
 
@@ -81,7 +82,7 @@ app.get("/", (req, res) => {
 
 app.get("/new", (req, res) => {
     let gameID = nano()
-    games[gameID] = new Game(gameID, (id) => {
+    games[gameID] = new Game(gameID, io, (id) => {
         // This runs onEmpty
         delete games[id];
     });

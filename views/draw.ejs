@@ -9,15 +9,19 @@
 </head>
 <body>
     <div class="container text-center">
-        <div class="drawWord">
-            <h3 class="text">Du skal tegne</h3>
-            <h2 class="word"></h2>
+        <div class="drawword">
+            <p class="text">Du skal tegne:</p>
+            <p class="word"></p>
         </div>
         <div class="canvasholder">
             <canvas id="drawCanvas" class="canvas"></canvas>
-            <div class="buttons">
-                <a class="btn" id="submitButton">Ferdig</a>
+            <div class="buttons inline" style="column-gap: 5px;">
+                <a class="btn" id="eraseButton" style="justify-self: end; width: 121px;">Viskelær</a>
+                <a class="btn" id="resetButton" style="justify-self: start; width: 121px;">Reset</a>
             </div>
+        </div>
+        <div class="buttons">
+            <a class="btn" id="submitButton">Ferdig</a>
         </div>
     </div>
 </body>

@@ -2,6 +2,13 @@
 
 const socket = io();
 
+const nameDiv = document.querySelector(".name");
+const lobbyDiv = document.querySelector(".lobby");
+const drawDiv = document.querySelector(".draw");
+const waitingDiv = document.querySelector(".waiting");
+const guessDiv = document.querySelector(".guess");
+const voteDiv = document.querySelector(".vote");
+
 const linkDiv = document.querySelector(".link");
 const link = window.location.href.replace(/(http:\/\/)|(https:\/\/)/g, "");
 const code = link.slice(-4);
@@ -56,7 +63,7 @@ document.addEventListener("keydown", (e) => {
 
 startButton.addEventListener("click", () => {
     if (!startButton.classList.contains("disabled")) {
-        socket.emit("startGame", code);
+        socket.emit("startGame");
     }
 });
 
@@ -82,9 +89,13 @@ function validateUserName(name) {
 
 // TODO: Add start game function
 function joinGame(id, name) {
-    document.querySelector(".name").classList.add("hidden");
-    document.querySelector(".lobby").classList.remove("hidden");
+    changeScreen(nameDiv, lobbyDiv);
     socket.emit("join", id, name);
+}
+
+function changeScreen(oldScreen, newScreen) {
+    oldScreen.classList.add("hidden");
+    newScreen.classList.remove("hidden");
 }
 
 socket.on("updateClientList", (clients) => {
@@ -96,7 +107,7 @@ socket.on("updateClientList", (clients) => {
         playerDiv.className = "player";
         playerDiv.textContent = player.name;
         playerList.appendChild(playerDiv);
-        // TODO: Render leader in a better way than this
+        // TODO: Render leader in a better way than this. 👀 https://fontawesome.com/
         if (player.isHost) {
             var icon = document.createElement("div");
             icon.className = "icon";
@@ -112,6 +123,10 @@ socket.on("updateClientList", (clients) => {
     } else {
         startButton.classList.add("disabled");
     }
+    // Dev lobby
+    if (code === "7777") {
+        startButton.classList.remove("disabled");
+    }
 });
 
 // Temporary fix for not being able to reconnect, at least in lobby
@@ -123,3 +138,103 @@ socket.on("error", (error) => {
         window.location.replace(window.location.href.slice(0, -4) + "?started=" + code);
     }
 });
+
+socket.on("gameStart", (firstWord) => {
+    console.log(firstWord);
+    changeScreen(lobbyDiv, drawDiv);
+    document.querySelector(".word").textContent = firstWord;
+});
+
+//
+// draw.js
+//
+
+const canvas = document.getElementById("drawCanvas");
+const ctx = canvas.getContext("2d");
+var drawing = false;
+var erase = false;
+const eraseButton = document.querySelector("#eraseButton");
+const resetButton = document.querySelector("#resetButton");
+
+canvas.height = 500;
+canvas.width = 500;
+
+function startDrawing(e){
+    drawing = true;
+    draw(e);
+}
+
+function stopDrawing(){
+    drawing = false;
+    ctx.beginPath();
+}
+
+function draw(e) {
+    if (!drawing) return;
+    ctx.lineCap = "round";
+    var posX = e.offsetX;
+    var posY = e.offsetY;
+
+    ctx.lineTo(posX, posY);
+    if (erase) {
+        ctx.lineWidth = 15;
+        ctx.globalCompositeOperation="destination-out";
+    } else {
+        ctx.lineWidth = 5;
+        ctx.globalCompositeOperation="source-over";
+    }
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(posX, posY);
+}
+
+function clearCanvas() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+canvas.addEventListener("mousedown", startDrawing);
+canvas.addEventListener("mouseup", stopDrawing);
+canvas.addEventListener("mousemove", draw);
+canvas.addEventListener("mouseout", stopDrawing);
+
+eraseButton.addEventListener("click", () => {
+    erase = !erase;
+    eraseButton.textContent = erase ? "Tegne" : "Viskelær";
+});
+
+resetButton.addEventListener("click", () => {
+    clearCanvas();
+});
+
+document.querySelector("#submitButton").addEventListener("click", () => {
+    submitDrawing();
+});
+
+function submitDrawing(){
+    const canvas = document.querySelector("#drawCanvas");
+    const dataURL = canvas.toDataURL();
+    socket.emit("submitDrawing", dataURL);
+    changeScreen(drawDiv, waitingDiv);
+    clearCanvas();
+}
+
+//
+// Waiting screen
+//
+
+const waitingPlayers = document.querySelector("#waitingPlayers");
+
+socket.on("updateWaiting", (waiting) => {
+    waitingPlayers.innerHTML = "";
+    waiting.forEach((player) => {
+        var playerDiv = document.createElement("div");
+        playerDiv.className = "player";
+        playerDiv.textContent = player.name;
+        waitingPlayers.appendChild(playerDiv);
+    });
+});
+
+//
+// Guess screen
+//
+

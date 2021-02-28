@@ -27,23 +27,8 @@ function updateVoteBar() {
     var wrongPercentage = Math.round(wrongVotes/totalVotes*100);
     greenBar.textContent = rightPercentage + "%";
     redBar.textContent = wrongPercentage + "%";
-    if (rightPercentage === 100) {
-        greenBar.style.borderRadius = "5px";
-    } else {
-        greenBar.style.borderRadius = "";
-    }
-    if (wrongPercentage === 100) {
-        redBar.style.borderRadius = "5px";
-    } else {
-        redBar.style.borderRadius = "";
-    }
-    if (rightPercentage === 0) {
-        greenBar.textContent = "";
-    }
-    if (wrongPercentage === 0) {
-        redBar.textContent = "";
-    }
+    greenBar.style.borderRadius = (rightPercentage === 100) ? "5px" : "";
+    redBar.style.borderRadius = (wrongPercentage === 100) ? "5px" : "";
     greenBar.style.flex = rightPercentage;
     redBar.style.flex = wrongPercentage;
-    console.log(`Right: ${rightPercentage}% Wrong: ${wrongPercentage}%`);
 }

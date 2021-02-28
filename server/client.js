@@ -16,6 +16,10 @@ class Client {
             id: this.id
         }
     }
+    // Emits an event to this client only
+    send(event, data) {
+        this.socket.emit(event, data);
+    }
 }
 
 module.exports = Client;

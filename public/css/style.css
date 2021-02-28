@@ -1,6 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap");
 body {
   font-family: 'Indie Flower', cursive;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 
 div {
@@ -44,6 +48,10 @@ a {
 
 .link {
   color: #0066CC;
+  -webkit-user-select: auto;
+     -moz-user-select: auto;
+      -ms-user-select: auto;
+          user-select: auto;
 }
 
 p {
@@ -129,10 +137,6 @@ input {
   font-size: 2rem;
   text-align: center;
   cursor: pointer;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
   -webkit-transition: background-color 200ms ease 0ms, border 200ms ease 0ms, -webkit-box-shadow 200ms ease 0ms;
   transition: background-color 200ms ease 0ms, border 200ms ease 0ms, -webkit-box-shadow 200ms ease 0ms;
   transition: background-color 200ms ease 0ms, box-shadow 200ms ease 0ms, border 200ms ease 0ms;
@@ -163,9 +167,16 @@ input {
   height: 500px;
 }
 
-:root {
-  --right-color: #00BF08;
-  --wrong-color: #ff0000;
+.drawword > * {
+  margin: 5px;
+}
+
+.text {
+  font-size: 28px;
+}
+
+.word {
+  font-size: 48px;
 }
 
 .buttons.inline {
@@ -180,15 +191,15 @@ input {
 }
 
 .btn.right {
-  color: var(--right-color);
-  border-color: var(--right-color) !important;
+  color: #00BF08;
+  border-color: #00BF08 !important;
   -ms-grid-column-align: end;
       justify-self: end;
 }
 
 .btn.wrong {
-  color: var(--wrong-color);
-  border-color: var(--wrong-color) !important;
+  color: #ff0000;
+  border-color: #ff0000 !important;
   -ms-grid-column-align: start;
       justify-self: start;
 }
@@ -211,20 +222,24 @@ input {
 }
 
 .red {
-  background-color: var(--wrong-color);
+  background-color: #ff0000;
   border-radius: 0px 5px 5px 0px;
   -webkit-transition: -webkit-box-flex 1000ms ease 0ms;
   transition: -webkit-box-flex 1000ms ease 0ms;
   transition: flex 1000ms ease 0ms;
   transition: flex 1000ms ease 0ms, -webkit-box-flex 1000ms ease 0ms, -ms-flex 1000ms ease 0ms;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .green {
-  background-color: var(--right-color);
+  background-color: #00BF08;
   border-radius: 5px 0px 0px 5px;
   -webkit-transition: -webkit-box-flex 1000ms ease 0ms;
   transition: -webkit-box-flex 1000ms ease 0ms;
   transition: flex 1000ms ease 0ms;
   transition: flex 1000ms ease 0ms, -webkit-box-flex 1000ms ease 0ms, -ms-flex 1000ms ease 0ms;
+  white-space: nowrap;
+  overflow: hidden;
 }
 /*# sourceMappingURL=style.css.map */

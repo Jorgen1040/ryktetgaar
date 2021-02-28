@@ -1,12 +1,23 @@
+const Sequence = require("./sequence");
+const Words = require("./words");
+
+const words = new Words();
+words.loadWords();
+
 class Game {
-    constructor(id, onEmpty) {
+    constructor(id, io, onEmpty) {
         this.id = id;
         this.host;
         // TODO: Convert client list to an object to allow for easier search?
         this.clients = [];
         this.onEmpty = onEmpty;
-        this.chain = [];
+        // TODO: Figure out how to do chains
+        this.sequences = [];
         this.started = false;
+        this.io = io;
+    }
+    sendToRoom(event, data) {
+        this.io.to(this.id).emit(event, data);
     }
     addClient(client) {
         // Join SocketIO room
@@ -16,9 +27,25 @@ class Game {
             client.makeHost();
         }
         this.clients.push(client);
+        this.updateClientList();
         client.socket.on("disconnect", () => {
             // TODO: Allow for reconnection. See: https://stackoverflow.com/questions/20260170/handle-browser-reload-socket-io
             this.removeClient(client);
+        });
+        client.socket.on("startGame", () => {
+            // Verify host
+            if (!this.started && this.host === client) {
+                this.startGame();
+            }
+        });
+        client.socket.on("submitDrawing", (dataURL) => {
+            this.sequences.forEach((sequence) => {
+                if (sequence.owner === client) {
+                    sequence.addPart(dataURL);
+                    client.ready = true;
+                    this.updateWaiting();
+                }
+            });
         });
     }
     removeClient(client) {
@@ -29,30 +56,48 @@ class Game {
         // ? https://stackoverflow.com/questions/49547/how-do-we-control-web-page-caching-across-all-browsers
         // Delete game if empty
         if (this.clients.length === 0) {
-            this.onEmpty(this.id);
-            return;
+            return this.onEmpty(this.id);
         }
         // Make next user host
         if (client === this.host) {
             this.host= this.clients[0];
             this.clients[0].makeHost();
         }
-        this.updateClientList(client.socket);
+        this.updateClientList();
     }
-    updateClientList(socket) {
+    updateClientList() {
         let clients = [];
         this.clients.forEach((client) => {
             clients.push(client.getJson());
         });
-        socket.to(this.id).emit("updateClientList", clients);
+        // TODO: Make this work without needing this.io
+        // client.send("updateClientList", clients);
+        this.sendToRoom("updateClientList", clients);
     }
-    startGame(socket) {
+    startGame() {
+        this.started = true;
         this.clients.forEach((client) => {
-            if (client.id === socket.id && this.host === client) {
-                console.log("Game started")
-                return this.started = true;
-            } 
+            let startWord = words.getWord();
+            this.startSequence(client, startWord);
+            client.send("gameStart", startWord);
         });
+    }
+    startSequence(client, startWord) {
+        let newSequence = new Sequence(startWord, client);
+        this.sequences.push(newSequence);
+    }
+    updateWaiting() {
+        let clients = [];
+        this.clients.forEach((client) => {
+            if (!client.ready) {
+                clients.push(client.getJson());
+            }
+        });
+        if (clients.length === 0) {
+            // TODO: Send drawings out when all clients are ready
+        } else {
+            this.sendToRoom("updateWaiting", clients);
+        }
     }
 }
 

@@ -34,5 +34,27 @@
             <a class="btn disabled" id="nameConfirm">Bekreft</a>
         </div>
     </div>
+    <div class="container text-center draw hidden">
+        <div class="drawword">
+            <p class="text">Du skal tegne:</p>
+            <p class="word"></p>
+        </div>
+        <div class="canvasholder">
+            <canvas id="drawCanvas" class="canvas"></canvas>
+            <div class="buttons inline" style="column-gap: 5px;">
+                <a class="btn" id="eraseButton" style="justify-self: end; width: 121px;">Viskelær</a>
+                <a class="btn" id="resetButton" style="justify-self: start; width: 121px;">Reset</a>
+            </div>
+        </div>
+        <div class="buttons">
+            <a class="btn" id="submitButton">Ferdig</a>
+        </div>
+    </div>
+    <div class="container text-center waiting hidden">
+        <h1>Venter på</h1>
+        <div class="players" id="waitingPlayers"></div>
+    </div>
+    <div class="container text-center guess hidden"></div>
+    <div class="container text-center vote hidden"></div>
 </body>
 </html>
