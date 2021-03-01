@@ -8,13 +8,12 @@ class Game {
     constructor(id, io, onEmpty) {
         this.id = id;
         this.host;
-        // TODO: Convert client list to an object to allow for easier search?
         this.clients = [];
         this.onEmpty = onEmpty;
-        // TODO: Figure out how to do chains
         this.sequences = [];
         this.started = false;
         this.io = io;
+        this.round = 0;
     }
     sendToRoom(event, data) {
         this.io.to(this.id).emit(event, data);
@@ -39,6 +38,7 @@ class Game {
             }
         });
         client.socket.on("submitDrawing", (dataURL) => {
+            // TODO: Replace this with findIndex?
             this.sequences.forEach((sequence) => {
                 if (sequence.owner === client) {
                     sequence.addPart(dataURL);
@@ -46,6 +46,13 @@ class Game {
                     this.updateWaiting();
                 }
             });
+        });
+        client.socket.on("submitGuess", (guess) => {
+            var clientIndex = this.clients.indexOf(client);
+            this.sequences[clientIndex].addPart(guess);
+            console.log(this.sequences[clientIndex]);
+            client.ready = true;
+            this.updateWaiting();
         });
     }
     removeClient(client) {
@@ -70,8 +77,6 @@ class Game {
         this.clients.forEach((client) => {
             clients.push(client.getJson());
         });
-        // TODO: Make this work without needing this.io
-        // client.send("updateClientList", clients);
         this.sendToRoom("updateClientList", clients);
     }
     startGame() {
@@ -93,11 +98,32 @@ class Game {
                 clients.push(client.getJson());
             }
         });
+        this.sendToRoom("updateWaiting", clients);
         if (clients.length === 0) {
-            // TODO: Send drawings out when all clients are ready
-        } else {
-            this.sendToRoom("updateWaiting", clients);
+            this.shiftSequences();
         }
+    }
+    shiftSequences() {
+        // Move last sequence to first slot
+        this.sequences.unshift(this.sequences.pop());
+        this.round++;
+        this.newRound();
+    }
+    newRound() {
+        if (this.round === this.clients.length) return this.endGame();
+        this.clients.forEach((client, index) => {
+            client.ready = false;
+            // Get the last part of the sequence (which is either a dataURL or string)
+            var data = this.sequences[index].parts[this.sequences[index].parts.length -1];
+            if (this.round % 2 === 1) {
+                client.send("newDrawing", data);
+            } else {
+                client.send("newWord", data);
+            }
+        });
+    }
+    endGame() {
+        // TODO: Add end screen with voting
     }
 }
 

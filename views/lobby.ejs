@@ -47,14 +47,25 @@
             </div>
         </div>
         <div class="buttons">
-            <a class="btn" id="submitButton">Ferdig</a>
+            <a class="btn" id="drawingSubmitButton">Ferdig</a>
         </div>
     </div>
     <div class="container text-center waiting hidden">
         <h1>Venter på</h1>
         <div class="players" id="waitingPlayers"></div>
     </div>
-    <div class="container text-center guess hidden"></div>
+    <div class="container text-center guess hidden">
+        <div class="drawing">
+            <p class="text">Hva er dette?</p>
+            <img class="drawing" id="drawingImg">
+        </div>
+        <div class="guessinput">
+            <input type="text" id="guessInput" placeholder="Skriv her" autocomplete="off" autofocus>
+        </div>
+        <div class="buttons">
+            <div class="btn" id="guessButton">Ferdig</div>
+        </div>
+    </div>
     <div class="container text-center vote hidden"></div>
 </body>
 </html>

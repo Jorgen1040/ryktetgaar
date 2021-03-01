@@ -8,6 +8,7 @@ const drawDiv = document.querySelector(".draw");
 const waitingDiv = document.querySelector(".waiting");
 const guessDiv = document.querySelector(".guess");
 const voteDiv = document.querySelector(".vote");
+const drawWord = document.querySelector(".word");
 
 const linkDiv = document.querySelector(".link");
 const link = window.location.href.replace(/(http:\/\/)|(https:\/\/)/g, "");
@@ -87,7 +88,6 @@ function validateUserName(name) {
     }
 }
 
-// TODO: Add start game function
 function joinGame(id, name) {
     changeScreen(nameDiv, lobbyDiv);
     socket.emit("join", id, name);
@@ -140,10 +140,14 @@ socket.on("error", (error) => {
 });
 
 socket.on("gameStart", (firstWord) => {
-    console.log(firstWord);
+    drawWord.textContent = firstWord;
     changeScreen(lobbyDiv, drawDiv);
-    document.querySelector(".word").textContent = firstWord;
 });
+
+socket.on("newWord", (word) => {
+    drawWord.textContent = word;
+    changeScreen(waitingDiv, drawDiv);
+})
 
 //
 // draw.js
@@ -155,6 +159,7 @@ var drawing = false;
 var erase = false;
 const eraseButton = document.querySelector("#eraseButton");
 const resetButton = document.querySelector("#resetButton");
+const drawingSubmitButton = document.querySelector("#drawingSubmitButton");
 
 canvas.height = 500;
 canvas.width = 500;
@@ -202,13 +207,9 @@ eraseButton.addEventListener("click", () => {
     eraseButton.textContent = erase ? "Tegne" : "Viskelær";
 });
 
-resetButton.addEventListener("click", () => {
-    clearCanvas();
-});
+resetButton.addEventListener("click", clearCanvas);
 
-document.querySelector("#submitButton").addEventListener("click", () => {
-    submitDrawing();
-});
+drawingSubmitButton.addEventListener("click", submitDrawing);
 
 function submitDrawing(){
     const canvas = document.querySelector("#drawCanvas");
@@ -238,3 +239,22 @@ socket.on("updateWaiting", (waiting) => {
 // Guess screen
 //
 
+const drawingImg = document.querySelector("#drawingImg");
+const guessButton = document.querySelector("#guessButton");
+const guessInput = document.querySelector("#guessInput");
+
+socket.on("newDrawing", (dataURL) => {
+    drawingImg.src = dataURL;
+    changeScreen(waitingDiv, guessDiv);
+});
+
+guessInput.addEventListener("input", () => {
+    guessInput.value.length > 0 ? guessButton.classList.remove("disabled") : guessButton.classList.add("disabled");
+});
+
+guessButton.addEventListener("click", () => {
+    var guess = guessInput.value;
+    socket.emit("submitGuess", guess);
+    changeScreen(guessDiv, waitingDiv);
+    guessInput.value = "";
+});
