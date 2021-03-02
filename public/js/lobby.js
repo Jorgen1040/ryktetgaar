@@ -55,6 +55,7 @@ confirmButton.addEventListener("click", () => {
 });
 
 document.addEventListener("keydown", (e) => {
+    // TODO: Disable this eventlistener on gameStart
     if (nameInput.value) {
         if (e.key === "Enter") {
             joinGame(code, nameInput.value);
