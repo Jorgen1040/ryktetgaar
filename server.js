@@ -53,6 +53,7 @@ io.on("connection", (socket) => {
         }
     });
     socket.on("join", (id, name) => {
+        // TODO: Check if someone sends wrong data
         if (name.length === 0 || name.length > 12) {
             return;
         }
