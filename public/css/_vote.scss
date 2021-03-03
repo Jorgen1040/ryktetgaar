@@ -1,27 +1,31 @@
 .buttons.inline {
     grid-template-areas: ". .";
     column-gap: 15px;
+    .btn {
+        margin: 0px;
+        width: 125px;
+    }
 }
 
-.buttons.inline .btn {
-    margin: 0px;
-    width: 125px;
-}
 
-.btn.right {
-    color: $right-color;
-    border-color: $right-color !important;
-    justify-self: end;
-}
+.btn {
+    &.right {
+      color: #00BF08;
+      border-color: #00BF08 !important;
+      -ms-grid-column-align: end;
+      justify-self: end;
+    }
+  
+    &.wrong {
+      color: #ff0000;
+      border-color: #ff0000 !important;
+      -ms-grid-column-align: start;
+      justify-self: start;
+    }
 
-.btn.wrong {
-    color: $wrong-color;
-    border-color: $wrong-color !important;
-    justify-self: start;
-}
-
-.btn.vote {
-    background-color: #eeeeee;
+    &.vote {
+        background-color: #eeeeee;
+    }
 }
 
 .votebar {
@@ -48,4 +52,24 @@
     transition: flex 1000ms ease 0ms;
     white-space: nowrap;
     overflow: hidden;
+}
+
+.players {
+    &.inline {
+        grid-template-areas: ". .";
+        column-gap: 15px;
+        .player {
+            margin: 0px;
+            width: 125px;
+        }
+    }
+}
+
+.player {
+    &.float-right {
+        justify-self: end;
+    }
+    &.float-left {
+        justify-self: start;
+    }
 }

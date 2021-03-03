@@ -50,9 +50,12 @@ class Game {
         client.socket.on("submitGuess", (guess) => {
             var clientIndex = this.clients.indexOf(client);
             this.sequences[clientIndex].addPart(guess);
-            console.log(this.sequences[clientIndex]);
+            //console.log(this.sequences[clientIndex]);
             client.ready = true;
             this.updateWaiting();
+        });
+        client.socket.on("submitVote", (vote) => {
+
         });
     }
     removeClient(client) {
@@ -110,7 +113,8 @@ class Game {
         this.newRound();
     }
     newRound() {
-        if (this.round === this.clients.length) return this.endGame();
+        // ! Ending game early for testing, should be this.clients.length
+        if (this.round === 1) return this.endGame();
         this.clients.forEach((client, index) => {
             client.ready = false;
             // Get the last part of the sequence (which is either a dataURL or string)
@@ -124,6 +128,8 @@ class Game {
     }
     endGame() {
         // TODO: Add end screen with voting
+        this.sendToRoom("voteStart");
+        this.sendToRoom("showVote", this.sequences[0].getJson());
     }
 }
 

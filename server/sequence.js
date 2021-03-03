@@ -10,7 +10,7 @@ class Sequence {
     }
     getJson() {
         return {
-            owner: this.owner,
+            owner: this.owner.name,
             startWord: this.startWord,
             parts: this.parts
         }

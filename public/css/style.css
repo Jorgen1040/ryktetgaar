@@ -194,14 +194,14 @@ input {
   color: #00BF08;
   border-color: #00BF08 !important;
   -ms-grid-column-align: end;
-      justify-self: end;
+  justify-self: end;
 }
 
 .btn.wrong {
   color: #ff0000;
   border-color: #ff0000 !important;
   -ms-grid-column-align: start;
-      justify-self: start;
+  justify-self: start;
 }
 
 .btn.vote {
@@ -245,5 +245,26 @@ input {
   transition: flex 1000ms ease 0ms, -webkit-box-flex 1000ms ease 0ms, -ms-flex 1000ms ease 0ms;
   white-space: nowrap;
   overflow: hidden;
+}
+
+.players.inline {
+      grid-template-areas: ". .";
+  -webkit-column-gap: 15px;
+          column-gap: 15px;
+}
+
+.players.inline .player {
+  margin: 0px;
+  width: 125px;
+}
+
+.player.float-right {
+  -ms-grid-column-align: end;
+      justify-self: end;
+}
+
+.player.float-left {
+  -ms-grid-column-align: start;
+      justify-self: start;
 }
 /*# sourceMappingURL=style.css.map */

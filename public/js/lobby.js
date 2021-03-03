@@ -24,12 +24,10 @@ linkDiv.addEventListener("click", copyLink);
 
 function copyLink() {
     navigator.clipboard.writeText(window.location.href);
-
     // Tooltip to confirm copy
     tooltiptext.style.opacity = 1;
     // Set the opacity to 0 after 5 seconds
     setTimeout(() => {tooltiptext.style.opacity = 0;}, 5000)
-
 }
 
 const nameInput = document.querySelector("#nameInput");
@@ -41,31 +39,17 @@ nameInput.addEventListener("input", () => {
 
 confirmButton.addEventListener("click", () => {
     if (nameInput.value) {
-        joinGame(code, nameInput.value);
+        joinGame();
     }
 });
 
-document.addEventListener("keydown", (e) => {
-    // TODO: Disable this eventlistener on gameStart
-    if (nameInput.value) {
-        if (e.key === "Enter") {
-            joinGame(code, nameInput.value);
-        }
-    }
-});
+document.addEventListener("keydown", checkEnter);
 
 startButton.addEventListener("click", () => {
     if (!startButton.classList.contains("disabled")) {
         socket.emit("startGame");
     }
 });
-
-// * This is a prevention to stop players from getting disconnected when reloading, but also happens on meaning to leave game. Kind of annoying
-// TODO: Run this after game starts
-// window.addEventListener("beforeunload", (e) => {
-//     e.preventDefault();
-//     e.returnValue = "";
-// });
 
 // When host refreshes, send to home with error
 socket.emit("checkID", code);
@@ -80,9 +64,25 @@ function validateUserName(name) {
     }
 }
 
-function joinGame(id, name) {
+function checkEnter(e) {
+    if (nameInput.value) {
+        if (e.key === "Enter") {
+            joinGame();
+            // Disable this eventListener as it's no longer of use
+            document.removeEventListener("keydown", checkEnter);
+        }
+    }
+}
+
+function joinGame() {
     changeScreen(nameDiv, lobbyDiv);
-    socket.emit("join", id, name);
+    // Warn on refresh/leave
+    // ? Do we do this?
+    // window.addEventListener("beforeunload", (e) => {
+    //     e.preventDefault();
+    //     e.returnValue = "";
+    // });
+    socket.emit("join", code, nameInput.value);
 }
 
 function changeScreen(oldScreen, newScreen) {
@@ -91,7 +91,6 @@ function changeScreen(oldScreen, newScreen) {
 }
 
 socket.on("updateClientList", (clients) => {
-    //if (clients.length === 0) window.location.replace(window.location.href.slice(0, -4) + "?error=" + code);
     const playerList = document.querySelector('.players');
     playerList.innerHTML = "";
     clients.forEach((player) => {
@@ -249,4 +248,18 @@ guessButton.addEventListener("click", () => {
     socket.emit("submitGuess", guess);
     changeScreen(guessDiv, waitingDiv);
     guessInput.value = "";
+});
+
+
+//
+// Voting/results screen
+// TODO: Finish this
+
+socket.on("voteStart", () => {
+    changeScreen(waitingDiv, voteDiv);
+});
+
+socket.on("showVote", (data) => {
+    // Populate voting screen
+    console.log(data);
 });
