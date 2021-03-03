@@ -15,7 +15,7 @@
       -ms-grid-column-align: end;
       justify-self: end;
     }
-  
+
     &.wrong {
       color: #ff0000;
       border-color: #ff0000 !important;
@@ -60,7 +60,7 @@
         column-gap: 15px;
         .player {
             margin: 0px;
-            width: 125px;
+            //width: 125px;
         }
     }
 }
