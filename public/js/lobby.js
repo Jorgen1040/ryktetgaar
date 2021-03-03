@@ -20,23 +20,14 @@ linkText.textContent = link;
 
 linkDiv.insertBefore(linkText, tooltiptext);
 
-linkDiv.addEventListener("click", () => {
-    copyLink();
-});
+linkDiv.addEventListener("click", copyLink);
 
 function copyLink() {
-    const copyText = document.querySelector(".link p");
-    const range = document.createRange();
-    const tooltiptext = document.querySelector(".tooltiptext");
-
-    window.getSelection().removeAllRanges();
-    range.selectNode(copyText);
-    window.getSelection().addRange(range);
-    document.execCommand("copy");
-    window.getSelection().removeAllRanges();
+    navigator.clipboard.writeText(window.location.href);
 
     // Tooltip to confirm copy
     tooltiptext.style.opacity = 1;
+    // Set the opacity to 0 after 5 seconds
     setTimeout(() => {tooltiptext.style.opacity = 0;}, 5000)
 
 }
