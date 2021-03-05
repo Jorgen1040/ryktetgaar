@@ -78,16 +78,20 @@ function joinGame() {
     changeScreen(nameDiv, lobbyDiv);
     // Warn on refresh/leave
     // ? Do we do this?
-    // window.addEventListener("beforeunload", (e) => {
-    //     e.preventDefault();
-    //     e.returnValue = "";
-    // });
+    window.addEventListener("beforeunload", (e) => {
+        e.preventDefault();
+        e.returnValue = "";
+    });
     socket.emit("join", code, nameInput.value);
 }
 
 function changeScreen(oldScreen, newScreen) {
     oldScreen.classList.add("hidden");
     newScreen.classList.remove("hidden");
+    // TODO: Finish adding ENTER support for guess screen
+    // if (newScreen === guessDiv) {
+    //     document.addEventListener("keydown", )
+    // }
 }
 
 socket.on("updateClientList", (clients) => {
