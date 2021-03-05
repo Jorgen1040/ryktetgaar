@@ -1,8 +1,14 @@
 .buttons {
-    display: grid;
-    grid-row-gap: 5px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
     font-size: 2rem;
     align-items: center;
+    justify-content: center;
+    &.inline {
+        flex-direction: row;
+        column-gap: 5px;
+    }
 }
 
 .btn {

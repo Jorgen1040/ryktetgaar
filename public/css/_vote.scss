@@ -1,26 +1,12 @@
-.buttons.inline {
-    grid-template-areas: ". .";
-    column-gap: 15px;
-    .btn {
-        margin: 0px;
-        width: 125px;
-    }
-}
-
-
 .btn {
     &.right {
-      color: #00BF08;
-      border-color: #00BF08 !important;
-      -ms-grid-column-align: end;
-      justify-self: end;
+      color: $right-color;
+      border-color: $right-color !important;
     }
 
     &.wrong {
-      color: #ff0000;
-      border-color: #ff0000 !important;
-      -ms-grid-column-align: start;
-      justify-self: start;
+      color: $wrong-color;
+      border-color: $wrong-color !important;
     }
 
     &.vote {
@@ -54,22 +40,23 @@
     overflow: hidden;
 }
 
-.players {
-    &.inline {
-        grid-template-areas: ". .";
-        column-gap: 15px;
-        .player {
-            margin: 0px;
-            //width: 125px;
-        }
-    }
-}
+// TODO: Make .players flexbox
+// .players {
+//     &.inline {
+//         grid-template-areas: ". .";
+//         column-gap: 15px;
+//         .player {
+//             margin: 0px;
+//             //width: 125px;
+//         }
+//     }
+// }
 
-.player {
-    &.float-right {
-        justify-self: end;
-    }
-    &.float-left {
-        justify-self: start;
-    }
-}
+// .player {
+//     &.float-right {
+//         justify-self: end;
+//     }
+//     &.float-left {
+//         justify-self: start;
+//     }
+// }
