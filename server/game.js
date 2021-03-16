@@ -62,6 +62,7 @@ class Game {
         client.socket.leave(this.id)
         const index = this.clients.indexOf(client);
         this.clients.splice(index, 1);
+        this.sequences.splice(index, 1);
         // TODO: This is too slow, allowing a user to "connect" to a non existing room.
         // ? https://stackoverflow.com/questions/49547/how-do-we-control-web-page-caching-across-all-browsers
         // Delete game if empty

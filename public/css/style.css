@@ -7,10 +7,6 @@ body {
           user-select: none;
 }
 
-div {
-  display: block;
-}
-
 h1 {
   font-size: 4rem;
 }
@@ -167,8 +163,9 @@ input {
   height: 500px;
 }
 
-.drawword > * {
-  margin: 5px;
+.guessword {
+  margin-top: -70px;
+  margin-bottom: -90px;
 }
 
 .text {
@@ -265,5 +262,9 @@ input {
 .player.float-left {
   -ms-grid-column-align: start;
       justify-self: start;
+}
+
+.top-player {
+  font-size: 2rem;
 }
 /*# sourceMappingURL=style.css.map */

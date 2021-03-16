@@ -10,21 +10,38 @@
 </head>
 <body>
     <div class="container text-center vote">
-        <h1>Vote:</h1>
+        <div class="top-player">
+            <p>Spiller1</p>
+        </div>
+        <div class="guessword">
+            <p class="text">Det originale ordet var:</p>
+            <p class="word">Klokke</p>
+            <p class="text" style="margin-top: 10px;">Spiller1 tegnet:</p>
+        </div>
+        <div class="canvas">
+            <img src="example.png">
+        </div>
+        <div class="guessword">
+            <p class="text">Spiller2 gjettet:</p>
+            <p class="word">klokke</p>
+        </div>
         <div class="votebox">
-            <div class="votebar">
-                <div class="green"></div>
-                <div class="red"></div>
-            </div>
+            <p class="text">Er dette riktig?</p>
             <div class="buttons inline" id="voteButtons">
                 <div class="btn vote right">Riktig</div>
                 <div class="btn vote wrong">Feil</div>
             </div>
-            <div class="results">
+            <div class="votebar hidden">
+                <div class="green"></div>
+                <div class="red"></div>
+            </div>
+            <div class="results hidden">
                 <!-- TODO: Show points given to players -->
                 <div class="players inline">
                     <div class="player float-right">Test</div>
                     <div class="player float-left">Test2</div>
+                    <div class="points float-right">+1 poeng</div>
+                    <div class="points float-left">+1 poeng</div>
                 </div>
             </div>
         </div>
