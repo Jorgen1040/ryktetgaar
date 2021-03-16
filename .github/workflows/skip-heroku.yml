@@ -9,7 +9,7 @@ on:
 
 jobs:
   heroku:
-    if: "contains(github.event.head_commit.message, '[skip heroku]' || '[heroku skip]')"
+    if: "contains(github.event.head_commit.message, '[skip heroku]' || github.event.head_commit.message, '[heroku skip]')"
     runs-on: ubuntu-latest
     steps:
       - name: Fail CI to skip Heroku deploy

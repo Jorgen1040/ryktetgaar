@@ -14,8 +14,7 @@
   "main": "server.js",
   "scripts": {
     "test": "nodemon server.js",
-    "start": "node server.js",
-    "build": "snowpack build"
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
