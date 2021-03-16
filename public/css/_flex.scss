@@ -1,7 +1,9 @@
 .container-flex {
     position: relative;
-    max-width: 500px;
     display: flex;
-    grid-row-gap: 100px;
-    margin: auto;
+    flex-direction: column;
+    justify-content: center;
+    transition: flex 500ms ease 0ms;
+    height: auto;
+    overflow: hidden;
 }

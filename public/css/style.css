@@ -163,11 +163,6 @@ input {
   height: 500px;
 }
 
-.guessword {
-  margin-top: -70px;
-  margin-bottom: -90px;
-}
-
 .text {
   font-size: 28px;
 }
@@ -266,5 +261,25 @@ input {
 
 .top-player {
   font-size: 2rem;
+}
+
+.container-flex {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-transition: -webkit-box-flex 500ms ease 0ms;
+  transition: -webkit-box-flex 500ms ease 0ms;
+  transition: flex 500ms ease 0ms;
+  transition: flex 500ms ease 0ms, -webkit-box-flex 500ms ease 0ms, -ms-flex 500ms ease 0ms;
+  height: auto;
+  overflow: hidden;
 }
 /*# sourceMappingURL=style.css.map */
