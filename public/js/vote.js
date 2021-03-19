@@ -32,3 +32,8 @@ function updateVoteBar() {
     greenBar.style.flex = rightPercentage;
     redBar.style.flex = wrongPercentage;
 }
+
+setTimeout(() => {
+    document.querySelector(".guessword").style.flex = 0;
+    console.log("Flex 0")
+}, 2000);

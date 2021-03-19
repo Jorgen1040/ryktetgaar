@@ -2,8 +2,14 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-evenly;
     transition: flex 500ms ease 0ms;
-    height: auto;
-    overflow: hidden;
+    height: 100vh;
+    .guessword {
+        margin: 5px;
+    }
+    div {
+        overflow: hidden;
+        white-space: nowrap;
+    }
 }

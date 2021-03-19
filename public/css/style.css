@@ -272,14 +272,22 @@ input {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
   -webkit-transition: -webkit-box-flex 500ms ease 0ms;
   transition: -webkit-box-flex 500ms ease 0ms;
   transition: flex 500ms ease 0ms;
   transition: flex 500ms ease 0ms, -webkit-box-flex 500ms ease 0ms, -ms-flex 500ms ease 0ms;
-  height: auto;
+  height: 100vh;
+}
+
+.container-flex .guessword {
+  margin: 5px;
+}
+
+.container-flex div {
   overflow: hidden;
+  white-space: nowrap;
 }
 /*# sourceMappingURL=style.css.map */
