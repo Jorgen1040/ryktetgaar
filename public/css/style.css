@@ -153,14 +153,15 @@ input {
 }
 
 .canvas {
-  margin: auto;
-  border: 5px solid gray;
-  border-radius: 10px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .canvasholder {
   width: 500px;
   height: 500px;
+  border: 5px solid gray;
+  border-radius: 10px;
 }
 
 .text {
@@ -211,10 +212,6 @@ input {
   -webkit-box-pack: stretch;
       -ms-flex-pack: stretch;
           justify-content: stretch;
-  -webkit-transition: -webkit-box-flex 500ms ease 0ms;
-  transition: -webkit-box-flex 500ms ease 0ms;
-  transition: flex 500ms ease 0ms;
-  transition: flex 500ms ease 0ms, -webkit-box-flex 500ms ease 0ms, -ms-flex 500ms ease 0ms;
 }
 
 .red {
@@ -275,10 +272,6 @@ input {
   -webkit-box-pack: space-evenly;
       -ms-flex-pack: space-evenly;
           justify-content: space-evenly;
-  -webkit-transition: -webkit-box-flex 500ms ease 0ms;
-  transition: -webkit-box-flex 500ms ease 0ms;
-  transition: flex 500ms ease 0ms;
-  transition: flex 500ms ease 0ms, -webkit-box-flex 500ms ease 0ms, -ms-flex 500ms ease 0ms;
   height: 100vh;
 }
 
@@ -287,6 +280,10 @@ input {
 }
 
 .container-flex div {
+  -webkit-transition: -webkit-box-flex 1000ms ease 0ms;
+  transition: -webkit-box-flex 1000ms ease 0ms;
+  transition: flex 1000ms ease 0ms;
+  transition: flex 1000ms ease 0ms, -webkit-box-flex 1000ms ease 0ms, -ms-flex 1000ms ease 0ms;
   overflow: hidden;
   white-space: nowrap;
 }

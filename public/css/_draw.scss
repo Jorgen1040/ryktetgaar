@@ -1,12 +1,13 @@
 .canvas {
-    margin: auto;
-    border: 5px solid gray;
-    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .canvasholder {
     width: 500px;
     height: 500px;
+    border: 5px solid gray;
+    border-radius: 10px;
 }
 
 .text {
