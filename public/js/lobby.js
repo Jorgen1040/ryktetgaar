@@ -27,7 +27,7 @@ function copyLink() {
     // Tooltip to confirm copy
     tooltiptext.style.opacity = 1;
     // Set the opacity to 0 after 5 seconds
-    setTimeout(() => {tooltiptext.style.opacity = 0;}, 5000)
+    setTimeout(() => {tooltiptext.style.opacity = 0;}, 5000);
 }
 
 const nameInput = document.querySelector("#nameInput");
@@ -58,9 +58,9 @@ function validateUserName(name) {
     // ? Maybe sanitize with RegEx if needed? "/([A-z])/g"
     if (name.length === 0) {
         // Disable confirm button
-        confirmButton.classList.add("disabled")
+        confirmButton.classList.add("disabled");
     } else {
-        confirmButton.classList.remove("disabled")
+        confirmButton.classList.remove("disabled");
     }
 }
 
@@ -68,20 +68,23 @@ function checkEnter(e) {
     if (nameInput.value) {
         if (e.key === "Enter") {
             joinGame();
-            // Disable this eventListener as it's no longer of use
-            document.removeEventListener("keydown", checkEnter);
         }
     }
 }
 
 function joinGame() {
     changeScreen(nameDiv, lobbyDiv);
+
+    // Disable this eventListener as it's no longer of use
+    document.removeEventListener("keydown", checkEnter);
+
     // Warn on refresh/leave
     // ? Do we do this?
-    window.addEventListener("beforeunload", (e) => {
-        e.preventDefault();
-        e.returnValue = "";
-    });
+    // window.addEventListener("beforeunload", (e) => {
+    //     e.preventDefault();
+    //     e.returnValue = "";
+    // });
+
     socket.emit("join", code, nameInput.value);
 }
 
@@ -110,7 +113,7 @@ socket.on("updateClientList", (clients) => {
             playerDiv.appendChild(icon);
         }
         if (player.id === socket.id && player.isHost) {
-            startButton.classList.remove("hidden")
+            startButton.classList.remove("hidden");
         }
     });
     if (document.querySelectorAll(".player").length > 3) {
@@ -159,12 +162,12 @@ const drawingSubmitButton = document.querySelector("#drawingSubmitButton");
 canvas.height = 500;
 canvas.width = 500;
 
-function startDrawing(e){
+function startDrawing(e) {
     drawing = true;
     draw(e);
 }
 
-function stopDrawing(){
+function stopDrawing() {
     drawing = false;
     ctx.beginPath();
 }
@@ -206,7 +209,7 @@ resetButton.addEventListener("click", clearCanvas);
 
 drawingSubmitButton.addEventListener("click", submitDrawing);
 
-function submitDrawing(){
+function submitDrawing() {
     const canvas = document.querySelector("#drawCanvas");
     const dataURL = canvas.toDataURL();
     socket.emit("submitDrawing", dataURL);
@@ -257,13 +260,15 @@ guessButton.addEventListener("click", () => {
 
 //
 // Voting/results screen
-// TODO: Finish this
+//
 
 socket.on("voteStart", () => {
     changeScreen(waitingDiv, voteDiv);
 });
 
 socket.on("showVote", (data) => {
+    // TODO: Fill with data from server
+
     // Populate voting screen
     console.log(data);
     //* For reference
@@ -271,11 +276,13 @@ socket.on("showVote", (data) => {
     // owner: string
     // startWord: string
     // parts: array of parts, 1 being first drawing
+    // each part has an owner, type and data. "type" is either WORD or DRAWING
 });
 
 const voteButtons = document.querySelector("#voteButtons");
 const rightButton = document.querySelector(".right");
 const wrongButton = document.querySelector(".wrong");
+const voteBar = document.querySelector(".votebar");
 const greenBar = document.querySelector(".green");
 const redBar = document.querySelector(".red");
 
@@ -296,7 +303,7 @@ wrongButton.addEventListener("click", () => {
 
 function updateVoteBar() {
     // Hide buttons once voted, disabled for testing
-    // voteButtons.classList.add("hidden");
+    voteButtons.classList.add("hidden");
     // TODO: Add socketio functionality :)
     // * When adding socketio, do percentage calculations serverside
     var totalVotes = wrongVotes + rightVotes;
@@ -308,4 +315,38 @@ function updateVoteBar() {
     redBar.style.borderRadius = (wrongPercentage === 100) ? "5px" : "";
     greenBar.style.flex = rightPercentage;
     redBar.style.flex = wrongPercentage;
+
+    voteBar.classList.remove("hidden");
 }
+
+////wrongButton.scrollIntoView({ behavior: 'smooth', block: 'end'});
+
+// Stolen from https://stackoverflow.com/a/39494245/7325232
+function doScrolling(elementY, duration) {
+    var startingY = window.pageYOffset;
+    var diff = elementY - startingY;
+    // Easing function: easeInOutQuad
+    // From: https://gist.github.com/gre/1650294
+    var easing = function (t) { return t<.5 ? 2*t*t : -1+(4-2*t)*t }
+    var start;
+
+    // Bootstrap our animation - it will get called right before next frame shall be rendered.
+    window.requestAnimationFrame(function step(timestamp) {
+        if (!start) start = timestamp;
+        // Elapsed milliseconds since start of scrolling.
+        var time = timestamp - start;
+        // Get percent of completion in range [0, 1].
+        var percent = Math.min(time / duration, 1);
+        percent = easing(percent);
+
+        window.scrollTo(0, startingY + diff * percent);
+
+        // Proceed with animation as long as we wanted it to.
+        if (time < duration) {
+            window.requestAnimationFrame(step);
+        }
+    })
+}
+
+// Y: 140 is Nice positioning
+doScrolling(140, 1000);

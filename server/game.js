@@ -1,3 +1,4 @@
+const Part = require("./part");
 const Sequence = require("./sequence");
 const Words = require("./words");
 
@@ -41,7 +42,7 @@ class Game {
             // TODO: Replace this with findIndex?
             this.sequences.forEach((sequence) => {
                 if (sequence.owner === client) {
-                    sequence.addPart(dataURL);
+                    sequence.addPart(new Part(client, "DRAWING", dataURL));
                     client.ready = true;
                     this.updateWaiting();
                 }
@@ -49,8 +50,7 @@ class Game {
         });
         client.socket.on("submitGuess", (guess) => {
             var clientIndex = this.clients.indexOf(client);
-            this.sequences[clientIndex].addPart(guess);
-            //console.log(this.sequences[clientIndex]);
+            this.sequences[clientIndex].addPart(new Part(client, "WORD", guess));
             client.ready = true;
             this.updateWaiting();
         });
@@ -104,6 +104,7 @@ class Game {
         });
         this.sendToRoom("updateWaiting", clients);
         if (clients.length === 0) {
+            // TODO: Check bug of this activating 1 player too early
             this.shiftSequences();
         }
     }
@@ -118,7 +119,7 @@ class Game {
         this.clients.forEach((client, index) => {
             client.ready = false;
             // Get the last part of the sequence (which is either a dataURL or string)
-            var data = this.sequences[index].parts[this.sequences[index].parts.length -1];
+            var data = this.sequences[index].parts[this.sequences[index].parts.length - 1].data;
             if (this.round % 2 === 1) {
                 client.send("newDrawing", data);
             } else {
@@ -127,6 +128,7 @@ class Game {
         });
     }
     endGame() {
+        console.log("Ending game")
         // TODO: Add end screen with voting
         this.sendToRoom("voteStart");
         this.sendToRoom("showVote", this.sequences[0].getJson());

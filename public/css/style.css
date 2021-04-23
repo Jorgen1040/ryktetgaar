@@ -5,6 +5,7 @@ body {
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
+  overflow: hidden;
 }
 
 h1 {
@@ -207,7 +208,7 @@ input {
 
 .votebar {
   margin: auto;
-  font-size: 1.3rem;
+  font-size: 2rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -244,6 +245,10 @@ input {
   overflow: hidden;
 }
 
+.players {
+  margin-top: 30px;
+}
+
 .players.inline {
       grid-template-areas: ". .";
   -webkit-column-gap: 15px;
@@ -264,7 +269,36 @@ input {
       justify-self: start;
 }
 
+.points {
+  width: 50%;
+}
+
+.points.float-right {
+  -ms-grid-column-align: end;
+      justify-self: end;
+}
+
+.points.float-left {
+  -ms-grid-column-align: start;
+      justify-self: start;
+}
+
 .top-player {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 100;
   font-size: 2rem;
+  background: darkgray;
+}
+
+.container-flex {
+  position: relative;
+  max-width: 500px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  grid-row-gap: 100px;
+  margin: auto;
 }
 /*# sourceMappingURL=style.css.map */
