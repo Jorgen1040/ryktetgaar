@@ -1,0 +1,10 @@
+node_modules
+.vscode
+.github
+build
+kort
+printer_ocr.py
+Procfile
+plan.md
+Pipfile*
+.pre-commit-config.yaml
