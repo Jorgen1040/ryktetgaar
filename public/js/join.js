@@ -17,6 +17,7 @@ function validateGameCode(code) {
 
 codeConfirm.addEventListener("click", () => {
     if (validateGameCode(codeInput.value)) {
+        // TODO: Add check for ID before redirecting (socket emit checkID)
         window.location.href = "/" + codeInput.value;
     }
 });
