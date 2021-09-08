@@ -34,7 +34,7 @@ const nameInput = document.querySelector("#nameInput");
 const confirmButton = document.querySelector("#nameConfirm");
 
 nameInput.addEventListener("input", () => {
-    validateUserName(nameInput.value)
+    validateUserName(nameInput.value);
 });
 
 confirmButton.addEventListener("click", () => {
@@ -244,6 +244,8 @@ const guessInput = document.querySelector("#guessInput");
 socket.on("newDrawing", (dataURL) => {
     drawingImg.src = dataURL;
     changeScreen(waitingDiv, guessDiv);
+    guessInput.focus();
+    guessInput.select();
 });
 
 guessInput.addEventListener("input", () => {
@@ -262,91 +264,109 @@ guessButton.addEventListener("click", () => {
 // Voting/results screen
 //
 
+const topPlayerName = document.querySelector("#currentPlayer");
+const originalWordDiv = document.querySelector("#originalWord");
+const navigationBtnDiv = document.querySelector(".navigation .buttons");
+const voteContainer = document.querySelector(".vote");
+
 socket.on("voteStart", () => {
     changeScreen(waitingDiv, voteDiv);
 });
 
+function displaySequence(sequence) {
+    topPlayerName.textContent = sequence.owner;
+    originalWordDiv.querySelector(".word").textContent = sequence.startWord;
+    // Clear any previous parts
+    document.querySelectorAll(".vote .drawing").forEach((e) => {
+        e.remove();
+    });
+    document.querySelectorAll(".vote .guessword").forEach((e) => {
+        if (!e.id) {
+            e.remove();
+        }
+    });
+    // Render all the sequence parts
+    sequence.parts.forEach((part) => {
+        if (part.type === "DRAWING") {
+            var divElement = document.createElement("div");
+            divElement.classList.add("drawing");
+
+            var textElement = document.createElement("p");
+            textElement.classList.add("text");
+            textElement.textContent = part.owner + " tegnet:";
+            divElement.appendChild(textElement);
+
+            var canvasElement = document.createElement("div");
+            canvasElement.classList.add("canvas");
+
+            var imgElement = document.createElement("img");
+            imgElement.src = part.data;
+            canvasElement.appendChild(imgElement);
+            divElement.appendChild(canvasElement);
+
+            voteContainer.insertBefore(divElement, document.querySelector(".navigation"));
+        }
+        if (part.type === "WORD") {
+            var divElement = document.createElement("div");
+            divElement.classList.add("guessword");
+
+            var textElement = document.createElement("p");
+            textElement.classList.add("text");
+            textElement.textContent = part.owner + " gjettet:";
+            divElement.appendChild(textElement);
+
+            var wordElement = document.createElement("p");
+            wordElement.classList.add("word");
+            wordElement.textContent = part.data;
+            divElement.appendChild(wordElement);
+
+            voteContainer.insertBefore(divElement, document.querySelector(".navigation"));
+        }
+    });
+    // Disable the button for the currently viewed player
+    navigationBtnDiv.querySelectorAll(".btn").forEach((button) => {
+        if (button.textContent === sequence.owner) {
+            button.classList.add("disabled");
+        } else {
+            button.classList.remove("disabled");
+        }
+    });
+}
+
 socket.on("showVote", (data) => {
-    // TODO: Fill with data from server
+    // TODO: Add voting system (see removed code)
 
     // Populate voting screen
     console.log(data);
     //* For reference
-    // data:
+    // 0:
     // owner: string
     // startWord: string
     // parts: array of parts, 1 being first drawing
     // each part has an owner, type and data. "type" is either WORD or DRAWING
+
+
+    // Generate pagination buttons
+    data.forEach((sequenceData, index) => {
+        let newBtn = document.createElement("a");
+        newBtn.classList.add("btn");
+        newBtn.id = index;
+        newBtn.textContent = sequenceData.owner;
+        newBtn.addEventListener("click", () => {
+            if (newBtn.classList.contains("disabled")) {
+                return
+            }
+            window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: "smooth"
+            });
+            displaySequence(sequenceData);
+            newBtn.classList.add("disabled");
+        });
+        navigationBtnDiv.appendChild(newBtn);
+    });
+
+    // Initialize first player data
+    displaySequence(data[0]);
 });
-
-const voteButtons = document.querySelector("#voteButtons");
-const rightButton = document.querySelector(".right");
-const wrongButton = document.querySelector(".wrong");
-const voteBar = document.querySelector(".votebar");
-const greenBar = document.querySelector(".green");
-const redBar = document.querySelector(".red");
-
-var rightVotes = 0;
-var wrongVotes = 0;
-
-rightButton.addEventListener("click", () => {
-    rightVotes++;
-    updateVoteBar();
-    socket.emit("vote", "right")
-});
-
-wrongButton.addEventListener("click", () => {
-    wrongVotes++;
-    updateVoteBar();
-    socket.emit("vote", "wrong");
-});
-
-function updateVoteBar() {
-    // Hide buttons once voted, disabled for testing
-    voteButtons.classList.add("hidden");
-    // TODO: Add socketio functionality :)
-    // * When adding socketio, do percentage calculations serverside
-    var totalVotes = wrongVotes + rightVotes;
-    var rightPercentage = Math.round(rightVotes/totalVotes*100);
-    var wrongPercentage = Math.round(wrongVotes/totalVotes*100);
-    greenBar.textContent = rightPercentage + "%";
-    redBar.textContent = wrongPercentage + "%";
-    greenBar.style.borderRadius = (rightPercentage === 100) ? "5px" : "";
-    redBar.style.borderRadius = (wrongPercentage === 100) ? "5px" : "";
-    greenBar.style.flex = rightPercentage;
-    redBar.style.flex = wrongPercentage;
-
-    voteBar.classList.remove("hidden");
-}
-
-////wrongButton.scrollIntoView({ behavior: 'smooth', block: 'end'});
-
-// Stolen from https://stackoverflow.com/a/39494245/7325232
-function doScrolling(elementY, duration) {
-    var startingY = window.pageYOffset;
-    var diff = elementY - startingY;
-    // Easing function: easeInOutQuad
-    // From: https://gist.github.com/gre/1650294
-    var easing = function (t) { return t<.5 ? 2*t*t : -1+(4-2*t)*t }
-    var start;
-
-    // Bootstrap our animation - it will get called right before next frame shall be rendered.
-    window.requestAnimationFrame(function step(timestamp) {
-        if (!start) start = timestamp;
-        // Elapsed milliseconds since start of scrolling.
-        var time = timestamp - start;
-        // Get percent of completion in range [0, 1].
-        var percent = Math.min(time / duration, 1);
-        percent = easing(percent);
-
-        window.scrollTo(0, startingY + diff * percent);
-
-        // Proceed with animation as long as we wanted it to.
-        if (time < duration) {
-            window.requestAnimationFrame(step);
-        }
-    })
-}
-
-// Y: 140 is Nice positioning
-doScrolling(140, 1000);

@@ -4,6 +4,7 @@ const path = require("path");
 class Words {
     constructor() {
         this.words = [];
+        this.loadWords();
     }
     loadWords() {
         // TODO: Add all words from scans into words.txt
@@ -12,17 +13,14 @@ class Words {
         this.removeEmptyLines();
     }
     removeEmptyLines() {
-        this.words.forEach((word, index) => {
-            if (word === "") {
-                this.words.splice(index, 1);
-            }
-        });
+        let filtered = this.words.filter(e => e);
+        this.words = filtered
     }
     getWord() {
         let random = Math.floor(Math.random() * this.words.length);
         let randomWord = this.words[random];
         if (!randomWord) {
-            // TODO: Figure out why it does this (empty list, only 4 words in list)
+            // This issue should be fixed, however keeping this error here in case it happens again
             console.error("getWord() returned empty/undefined string. Below is this.words");
             console.error(this.words);
         }

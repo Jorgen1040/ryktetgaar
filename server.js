@@ -97,8 +97,8 @@ app.get("/vote", (req, res) => {
     res.render("vote");
 });
 
-app.get("/start", (req, res) => {
-    res.send("Funker ikke enda :)")
+app.get("/join", (req, res) => {
+    res.render("join");
 });
 
 app.get("/:id", (req, res) => {
