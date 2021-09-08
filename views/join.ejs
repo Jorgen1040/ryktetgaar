@@ -4,27 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ryktet Går</title>
+    <script defer src="/js/join.js"></script>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <div class="container text-center">
         <div class="text">
             <h1>Ryktet Går</h1>
-            <div class="error">
-                <% if (locals.invalid) { %>
-                    <p><%= invalid %> finnes ikke</p>
-                <% } %>
-                <% if (locals.started) { %>
-                    <p><%= started %> har allerede startet</p>
-                <% } %>
-            </div>
+            <p>Skriv inn spillkode for å bli med:</p>
+        </div>
+        <div>
+            <input type="text" id="codeInput" placeholder="Spillkode" autocomplete="off" maxlength="4" autofocus><br>
         </div>
         <div class="buttons">
-            <a class="btn" href="/join" type="button">Bli med i spill</a>
-            <a class="btn" href="/new" type="button">Nytt spill</a>
-            <!-- <a class="btn" href="/draw" type="button">Draw</a>
-            <a class="btn" href="/vote" type="button">Vote</a> -->
-            <!-- <a class="btn" href="/instrukser" type="button">Instrukser</a> -->
+            <a class="btn disabled" id="codeConfirm">Bli med</a>
+            <a class="btn" href="/" type="button">Tilbake</a>
         </div>
         <footer>
             <p>Laget av <a href="https://github.com/Jorgen1040/ryktetgaar" target="_blank">Jørgen Ringstad Møglestue</a></p>

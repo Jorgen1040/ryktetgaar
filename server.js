@@ -35,9 +35,6 @@ if (process.env.NODE_ENV === "development") {
         games["7777"].started = false;
         console.log("onEmpty triggered, but game is dev");
     });
-    var devWords = new Words();
-    devWords.loadWords();
-    //console.log(devWords.words);
 }
 
 app.set("view engine", "ejs");
@@ -100,8 +97,8 @@ app.get("/vote", (req, res) => {
     res.render("vote");
 });
 
-app.get("/start", (req, res) => {
-    res.send("Funker ikke enda :)")
+app.get("/join", (req, res) => {
+    res.render("join");
 });
 
 app.get("/:id", (req, res) => {

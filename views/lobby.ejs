@@ -24,6 +24,13 @@
         <div class="buttons">
             <a class="btn" href="/">Forlat</a>
         </div>
+        <footer>
+            <p>Laget av <a href="https://github.com/Jorgen1040/ryktetgaar" target="_blank">Jørgen Ringstad Møglestue</a></p>
+            <p>ved Nesodden VGS 2021</p>
+            <a href="https://viken.no/nesodden-vgs/" href="_blank">
+                <img src="/images/nvgs.svg" alt="Nesodden Videregående Skole" width="200px">
+            </a>
+        </footer>
     </div>
     <div class="container text-center name">
         <p>Vennligst velg et navn:</p>
@@ -67,22 +74,16 @@
         </div>
     </div>
     <div class="container text-center vote hidden">
-        <h1>Vote:</h1>
-        <div class="votebox">
-            <div class="votebar">
-                <div class="green"></div>
-                <div class="red"></div>
-            </div>
-            <div class="buttons inline" id="voteButtons">
-                <div class="btn vote right">Riktig</div>
-                <div class="btn vote wrong">Feil</div>
-            </div>
-            <div class="results">
-                <!-- TODO: Show points given to players -->
-                <div class="players inline">
-                    <div class="player float-right">Test</div>
-                    <div class="player float-left">Test2</div>
-                </div>
+        <div class="top-player">
+            <p id="currentPlayer">PlaceholderPlayer</p>
+        </div>
+        <div class="guessword" id="originalWord">
+            <p class="text">Det originale ordet var:</p>
+            <p class="word">PlaceholderWord</p>
+        </div>
+        <div class="navigation">
+            <p class="text">Se andre spilleres ord</p>
+            <div class="buttons">
             </div>
         </div>
     </div>

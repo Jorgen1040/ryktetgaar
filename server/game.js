@@ -1,8 +1,6 @@
+const Part = require("./part");
 const Sequence = require("./sequence");
 const Words = require("./words");
-
-const words = new Words();
-words.loadWords();
 
 class Game {
     constructor(id, io, onEmpty) {
@@ -29,6 +27,7 @@ class Game {
         this.updateClientList();
         client.socket.on("disconnect", () => {
             // TODO: Allow for reconnection. See: https://stackoverflow.com/questions/20260170/handle-browser-reload-socket-io
+            // https://gist.github.com/m4tm4t/7696811
             this.removeClient(client);
         });
         client.socket.on("startGame", () => {
@@ -38,19 +37,14 @@ class Game {
             }
         });
         client.socket.on("submitDrawing", (dataURL) => {
-            // TODO: Replace this with findIndex?
-            this.sequences.forEach((sequence) => {
-                if (sequence.owner === client) {
-                    sequence.addPart(dataURL);
-                    client.ready = true;
-                    this.updateWaiting();
-                }
-            });
+            let clientIndex = this.clients.indexOf(client);
+            this.sequences[clientIndex].addPart(new Part(client, "DRAWING", dataURL));
+            client.ready = true;
+            this.updateWaiting();
         });
         client.socket.on("submitGuess", (guess) => {
-            var clientIndex = this.clients.indexOf(client);
-            this.sequences[clientIndex].addPart(guess);
-            //console.log(this.sequences[clientIndex]);
+            let clientIndex = this.clients.indexOf(client);
+            this.sequences[clientIndex].addPart(new Part(client, "WORD", guess));
             client.ready = true;
             this.updateWaiting();
         });
@@ -85,6 +79,7 @@ class Game {
     }
     startGame() {
         this.started = true;
+        const words = new Words();
         this.clients.forEach((client) => {
             let startWord = words.getWord();
             this.startSequence(client, startWord);
@@ -96,6 +91,7 @@ class Game {
         this.sequences.push(newSequence);
     }
     updateWaiting() {
+        // TODO: Bug where a person gets lost on last round
         let clients = [];
         this.clients.forEach((client) => {
             if (!client.ready) {
@@ -104,6 +100,7 @@ class Game {
         });
         this.sendToRoom("updateWaiting", clients);
         if (clients.length === 0) {
+            // TODO: Check bug of this activating 1 player too early
             this.shiftSequences();
         }
     }
@@ -118,18 +115,26 @@ class Game {
         this.clients.forEach((client, index) => {
             client.ready = false;
             // Get the last part of the sequence (which is either a dataURL or string)
-            var data = this.sequences[index].parts[this.sequences[index].parts.length -1];
-            if (this.round % 2 === 1) {
-                client.send("newDrawing", data);
+            var lastPart = this.sequences[index].parts[this.sequences[index].parts.length - 1];
+            if (lastPart.type === "DRAWING") {
+                client.send("newDrawing", lastPart.data);
             } else {
-                client.send("newWord", data);
+                client.send("newWord", lastPart.data);
             }
         });
     }
     endGame() {
+        console.log("Ending game")
         // TODO: Add end screen with voting
         this.sendToRoom("voteStart");
-        this.sendToRoom("showVote", this.sequences[0].getJson());
+        this.sendToRoom("showVote", this.getAllSequences());
+    }
+    getAllSequences() {
+        let allSequences = [];
+        this.sequences.forEach((sequence) => {
+            allSequences.push(sequence.getJson());
+        });
+        return allSequences;
     }
 }
 

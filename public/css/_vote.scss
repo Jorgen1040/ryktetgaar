@@ -30,7 +30,7 @@
 
 .votebar {
     margin: auto;
-    font-size: 1.3rem;
+    font-size: 2rem;
     display: flex;
     width: 75%;
     justify-self: center;
@@ -55,6 +55,7 @@
 }
 
 .players {
+    margin-top: 30px;
     &.inline {
         grid-template-areas: ". .";
         column-gap: 15px;
@@ -74,6 +75,21 @@
     }
 }
 
+.points {
+    width: 50%;
+    &.float-right {
+        justify-self: end;
+    }
+    &.float-left {
+        justify-self: start;
+    }
+}
+
 .top-player {
+    position: sticky;
+    top: 0;
+    // z-index to stop text from appearing above sticky
+    z-index: 100;
     font-size: 2rem;
+    background: darkgray;
 }

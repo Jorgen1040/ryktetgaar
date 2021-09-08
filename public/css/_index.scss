@@ -2,7 +2,8 @@
 
 body {
     font-family: 'Indie Flower', cursive;
-    user-select: none;
+    //user-select: none;
+    //overflow: hidden;
 }
 
 
@@ -34,4 +35,11 @@ a {
     left: 0;
     right: 0;
     font-size: 1.5rem;
+}
+
+footer {
+    font-size: 1.3rem;
+    a {
+        color: #003fb2;
+    }
 }

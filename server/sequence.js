@@ -9,10 +9,14 @@ class Sequence {
         this.parts.push(part);
     }
     getJson() {
+        let parts = [];
+        this.parts.forEach((part) => {
+            parts.push(part.getJson());
+        });
         return {
             owner: this.owner.name,
             startWord: this.startWord,
-            parts: this.parts
+            parts: parts
         }
     }
 }
