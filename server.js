@@ -1,10 +1,8 @@
 const express = require("express");
 const path = require("path");
-const http = require("http");
 const socketIO = require("socket.io");
 const nanoid = require("nanoid");
 const helmet = require("helmet");
-//const nocache = require("nocache");
 const morgan = require("morgan");
 const crypto = require("crypto");
 
@@ -28,14 +26,15 @@ app.use(express.json());
 // Security stuff
 app.use((req, res, next) => {
     // Generate Nonce to validate scripts
-    res.locals.cspNonce = crypto.randomBytes(16).toString("hex");
-    console.log(res.locals.cspNonce);
+    res.locals.nonce = crypto.randomBytes(16).toString("hex");
+    //console.log(res.locals.cspNonce);
     next();
 });
 app.use(helmet.contentSecurityPolicy({
     useDefaults: true,
     directives: {
-        scriptSrc: ["'self'", (req, res) => `'nonce-${res.locals.cspNonce}'`, "https://googletagmanager.com"],
+        scriptSrc: ["'self'", (req, res) => `'nonce-${res.locals.nonce}'`, "https://www.googletagmanager.com"],
+        connectSrc: ["'self'", "https://www.google-analytics.com"],
     },
 }));
 
