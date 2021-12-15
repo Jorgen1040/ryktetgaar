@@ -103,11 +103,15 @@ app.get("/join", (req, res) => {
 
 app.get("/:id", (req, res) => {
     let id = req.params.id;
+    // Return error if code is invalid
+    if (id.match(/^[a-z0-9]{4}$/)) {
+        return res.redirect("/?invalid=" + id);
+    };
     if (games[id]) {
         if (games[id].started) {
             return res.redirect("/?started=" + id);
         }
         return res.render("lobby", { roomID: id });
     }
-    res.redirect("/?invalid=" + id);
+    res.redirect("/?nonexistant=" + id);
 });

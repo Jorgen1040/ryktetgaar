@@ -11,11 +11,14 @@
         <div class="text">
             <h1>Ryktet Går</h1>
             <div class="error">
-                <% if (locals.invalid) { %>
-                    <p><%= invalid %> finnes ikke</p>
+                <% if (locals.nonexistant) { %>
+                    <p><%= nonexistant %> finnes ikke</p>
                 <% } %>
                 <% if (locals.started) { %>
                     <p><%= started %> har allerede startet</p>
+                <% } %>
+                <% if (locals.invalid) { %>
+                    <p><%= invalid %> er ikke en gyldig kode/siden finnes ikke</p>
                 <% } %>
             </div>
         </div>
