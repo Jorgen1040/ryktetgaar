@@ -6,8 +6,8 @@ const nanoid = require("nanoid");
 const helmet = require("helmet");
 //const nocache = require("nocache");
 const morgan = require("morgan");
+const crypto = require("crypto");
 
-const fs = require("fs");
 const Game = require("./server/game");
 const Client = require("./server/client");
 const Words = require("./server/words");
@@ -24,8 +24,19 @@ const publicPath = path.join(__dirname, "public");
 const nano = nanoid.customAlphabet("abcdefghijklmnopqrstuvwxyz", 4);
 
 app.use(express.json());
-app.use(helmet());
-//app.use(nocache());
+
+// Security stuff
+app.use((req, res, next) => {
+    // Generate Nonce to validate scripts
+    res.locals.cspNonce = crypto.randomBytes(16).toString("hex");
+    next();
+});
+app.use(helmet.contentSecurityPolicy({
+    useDefaults: true,
+    directives: {
+        scriptSrc: ["'self'", (req, res) => `'nonce-${res.locals.cspNonce}'`],
+    },
+}));
 
 process.env.NODE_ENV = process.env.NODE_ENV || "development"
 
