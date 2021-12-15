@@ -29,12 +29,13 @@ app.use(express.json());
 app.use((req, res, next) => {
     // Generate Nonce to validate scripts
     res.locals.cspNonce = crypto.randomBytes(16).toString("hex");
+    console.log(res.locals.cspNonce);
     next();
 });
 app.use(helmet.contentSecurityPolicy({
     useDefaults: true,
     directives: {
-        scriptSrc: ["'self'", (req, res) => `'nonce-${res.locals.cspNonce}'`],
+        scriptSrc: ["'self'", (req, res) => `'nonce-${res.locals.cspNonce}'`, "https://googletagmanager.com"],
     },
 }));
 
