@@ -70,6 +70,9 @@ io.on("connection", (socket) => {
 app.get('/favicon.ico', (req, res) => res.status(204).end()); // TODO: Add a favicon, so i dont have to do this
 
 app.get("/", (req, res) => {
+    if (req.query.nonexistant) {
+        return res.render("index", { nonexistant: req.query.nonexistant });
+    }
     if (req.query.invalid) {
         return res.render("index", { invalid: req.query.invalid });
     }
@@ -106,7 +109,7 @@ app.get("/:id", (req, res) => {
     // Return error if code is invalid
     if (id.match(/^[a-z0-9]{4}$/)) {
         return res.redirect("/?invalid=" + id);
-    };
+    }
     if (games[id]) {
         if (games[id].started) {
             return res.redirect("/?started=" + id);
