@@ -27,15 +27,16 @@ app.use(express.json());
 app.use((req, res, next) => {
     // Generate Nonce to validate scripts
     res.locals.nonce = crypto.randomBytes(16).toString("hex");
-    //console.log(res.locals.cspNonce);
     next();
 });
-app.use(helmet.contentSecurityPolicy({
-    useDefaults: true,
-    directives: {
-        scriptSrc: ["'self'", (req, res) => `'nonce-${res.locals.nonce}'`, "https://www.googletagmanager.com"],
-        connectSrc: ["'self'", "https://www.google-analytics.com"],
-    },
+app.use(helmet({
+    contentSecurityPolicy: {
+        useDefaults: true,
+        directives: {
+            scriptSrc: ["'self'", (req, res) => `'nonce-${res.locals.nonce}'`, "https://www.googletagmanager.com"],
+            connectSrc: ["'self'", "https://www.google-analytics.com"],
+        },
+    }
 }));
 
 process.env.NODE_ENV = process.env.NODE_ENV || "development"
