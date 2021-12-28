@@ -43,8 +43,8 @@ process.env.NODE_ENV = process.env.NODE_ENV || "development"
 if (process.env.NODE_ENV === "development") {
     app.use(morgan('dev'));
     games["7777"] = new Game("7777", io, () => {
-        games["7777"].started = false;
         console.log("onEmpty triggered, but game is dev");
+        games["7777"].started = false;
     });
 }
 
@@ -94,10 +94,16 @@ app.get("/", (req, res) => {
 });
 
 app.get("/new", (req, res) => {
-    let gameID = nano()
-    games[gameID] = new Game(gameID, io, (id) => {
+    let gameID;
+    // Generate game ID and make sure it's not overlapping with existing games or default paths
+    do {
+        gameID = nano();
+    } while (gameID.match(/^(draw|vote|join)$/) || games[gameID]);
+    console.log("Creating game with ID: " + gameID);
+    games[gameID] = new Game(gameID, io, () => {
         // This runs onEmpty
-        delete games[id];
+        console.log("Removing game with ID: " + gameID);
+        delete games[gameID];
     });
     res.redirect('/' + gameID);
 });
@@ -118,7 +124,7 @@ app.get("/join", (req, res) => {
 app.get("/:id", (req, res) => {
     let id = req.params.id;
     // Return error if code is invalid
-    if (id.match(/^[a-z]{4}$/)) {
+    if (!id.match(/^[a-z]{4}$/)) {
         return res.redirect("/?invalid=" + id);
     }
     if (games[id]) {

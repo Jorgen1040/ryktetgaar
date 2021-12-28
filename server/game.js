@@ -12,6 +12,14 @@ class Game {
         this.started = false;
         this.io = io;
         this.round = 0;
+        this.timeouts = []; // Houses all setTimeout functions (so we can delete on game delete)
+
+        // Start deletion process in case no one joins
+        this.timeouts.push(setTimeout(() => {
+            if (this.clients.length === 0 && this.id != "7777") {
+                this.clearTimeouts();
+                this.onEmpty();
+        }}, 300000 )); // 5 minutes
     }
     sendToRoom(event, data) {
         this.io.to(this.id).emit(event, data);
@@ -60,12 +68,10 @@ class Game {
         // TODO: This is too slow, allowing a user to "connect" to a non existing room.
         // ? https://stackoverflow.com/questions/49547/how-do-we-control-web-page-caching-across-all-browsers
         // Delete game if empty
-        if (this.clients.length === 0) {
-            return this.onEmpty(this.id);
-        }
+        this.deleteGame();
         // Make next user host
-        if (client === this.host) {
-            this.host= this.clients[0];
+        if (client === this.host && !this.clients.length === 0) {
+            this.host = this.clients[0];
             this.clients[0].makeHost();
         }
         this.updateClientList();
@@ -135,6 +141,20 @@ class Game {
             allSequences.push(sequence.getJson());
         });
         return allSequences;
+    }
+    deleteGame() {
+        // Wait 1 minute before deleting to allow reconnection
+        this.timeouts.push(setTimeout(() => {
+            if (this.clients.length === 0) {
+                this.clearTimeouts();
+                this.onEmpty();
+        }}, 60000 )); // 1 minute
+    }
+    clearTimeouts() {
+        // Removes extra timeouts to prevent them running after game is deleted
+        this.timeouts.forEach((timeout) => {
+            clearTimeout(timeout);
+        });
     }
 }
 
