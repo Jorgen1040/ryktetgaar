@@ -43,9 +43,9 @@ process.env.NODE_ENV = process.env.NODE_ENV || "development"
 
 if (process.env.NODE_ENV === "development") {
     app.use(morgan('dev'));
-    games["7777"] = new Game("7777", io, () => {
+    games["ffff"] = new Game("ffff", io, () => {
         console.log("onEmpty triggered, but game is dev");
-        games["7777"].started = false;
+        games["ffff"].started = false;
     });
 }
 
