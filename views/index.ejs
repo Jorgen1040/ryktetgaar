@@ -1,34 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ryktet Går</title>
+    <meta name="description" content="Spill Ryktet Går på nett sammen med venner">
     <link rel="stylesheet" href="/css/style.css">
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-43ZQPLRC6J"></script>
     <script nonce="<%= nonce %>">
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+        function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
 
         gtag('config', 'G-43ZQPLRC6J');
     </script>
 </head>
+
 <body>
     <div class="container text-center">
         <div class="text">
             <h1>Ryktet Går</h1>
             <div class="error">
                 <% if (locals.nonexistant) { %>
-                    <p><%= nonexistant %> finnes ikke</p>
-                <% } %>
-                <% if (locals.started) { %>
-                    <p><%= started %> har allerede startet</p>
-                <% } %>
-                <% if (locals.invalid) { %>
-                    <p><%= invalid %> er ikke en gyldig kode</p>
-                <% } %>
+                    <p>
+                        <%= nonexistant %> finnes ikke
+                    </p>
+                    <% } %>
+                        <% if (locals.started) { %>
+                            <p>
+                                <%= started %> har allerede startet
+                            </p>
+                            <% } %>
+                                <% if (locals.invalid) { %>
+                                    <p>
+                                        <%= invalid %> er ikke en gyldig kode
+                                    </p>
+                                    <% } %>
             </div>
         </div>
         <div class="buttons">
@@ -39,12 +48,17 @@
             <!-- <a class="btn" href="/instrukser" type="button">Instrukser</a> -->
         </div>
         <footer>
-            <p>Laget av <a href="https://github.com/Jorgen1040/ryktetgaar" target="_blank">Jørgen Ringstad Møglestue</a></p>
+            <p>Laget av
+                <a href="https://github.com/Jorgen1040/ryktetgaar" target="_blank" rel="noopener">
+                    Jørgen Ringstad Møglestue
+                </a>
+            </p>
             <p>ved Nesodden VGS 2021</p>
-            <a href="https://viken.no/nesodden-vgs/" href="_blank">
-                <img src="/images/nvgs.svg" alt="Nesodden Videregående Skole" width="200px">
+            <a href="https://viken.no/nesodden-vgs/" href="_blank" rel="noopener">
+                <img src="/images/nvgs.svg" alt="Nesodden Videregående Skole" width="200px" height="36px">
             </a>
         </footer>
     </div>
 </body>
+
 </html>
